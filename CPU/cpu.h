@@ -89,6 +89,11 @@ class CPU
 
     Memory* memory;
 
+    void Mem_PutByte(uint16_t address, uint8_t value);
+    void Mem_PutWord(uint16_t address, uint16_t value);
+    uint8_t Mem_GetByte(uint16_t address);
+    uint16_t Mem_GetWord(uint16_t address);
+
 public:
     CPU(Memory* memory);
 };
