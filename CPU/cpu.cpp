@@ -23,3 +23,14 @@ uint16_t CPU::Mem_GetWord(uint16_t address){
     uint8_t msb = (*memory)[address];
     return (msb<<8)|lsb;
 }
+
+void CPU::Push(uint16_t value){
+    Mem_PutWord(SP, value);
+    SP-=2;
+}
+
+uint16_t CPU::Pop(){
+    uint16_t value = Mem_GetWord(SP);
+    SP+=2;
+    return value;
+}

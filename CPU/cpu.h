@@ -93,6 +93,8 @@ class CPU
     void Mem_PutWord(uint16_t address, uint16_t value);
     uint8_t Mem_GetByte(uint16_t address);
     uint16_t Mem_GetWord(uint16_t address);
+    void Push(uint16_t value);
+    uint16_t Pop();
 
 public:
     CPU(Memory* memory);
