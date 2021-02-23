@@ -15,15 +15,15 @@
 #define DX *dx
 #define DH *dh
 #define DL *dl
-#define SP *sp
-#define BP *bp
-#define DI *di
-#define SI *si
-#define CS *cs
-#define DS *ds
-#define SS *ss
-#define ES *es
-#define IP *ip
+#define SP sp
+#define BP bp
+#define DI di
+#define SI si
+#define CS cs
+#define DS ds
+#define SS ss
+#define ES es
+#define IP ip
 
 #define TF EFLAGS[4]; //trap
 #define DF EFLAGS[5]; //direction
@@ -39,29 +39,22 @@ class CPU
 {
     uint8_t EFLAGS[16];
 
-    IP_R IP_Register;
+    uint16_t ip;
 
-    uint16_t* ip = &IP_Register.IP_R;
-
-    CS_R CS_Register;
-    DS_R DS_Register;
-    ES_R ES_Register;
-    SS_R SS_Register;
-
-    uint16_t* cs = &CS_Register.CS_R;
-    uint16_t* ds = &DS_Register.DS_R;
-    uint16_t* ss = &SS_Register.SS_R;
-    uint16_t* es = &ES_Register.ES_R;
+    uint16_t cs;
+    uint16_t ds;
+    uint16_t es;
+    uint16_t ss;
 
     AX_R AX_Register;
     BX_R BX_Register;
     CX_R CX_Register;
     DX_R DX_Register;
 
-    BP_R BP_Register;
-    SP_R SP_Register;
-    DI_R DI_Register;
-    SI_R SI_Register;
+    uint16_t bp;
+    uint16_t sp;
+    uint16_t di;
+    uint16_t si;
 
     uint16_t* ax = &AX_Register.AX_R;
     uint8_t* ah = &AX_Register.AH_R;
@@ -78,14 +71,6 @@ class CPU
     uint16_t* dx = &DX_Register.DX_R;
     uint8_t* dh = &DX_Register.DH_R;
     uint8_t* dl = &DX_Register.DL_R;
-
-    uint16_t* sp = &SP_Register.SP_R;
-
-    uint16_t* bp = &BP_Register.BP_R;
-
-    uint16_t* di = &DI_Register.DI_R;
-
-    uint16_t* si = &SI_Register.SI_R;
 
     Memory* memory;
 
