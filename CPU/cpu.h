@@ -36,9 +36,11 @@
 #define CF EFLAGS[15]; //carry
 
 class CPU
-{
+{   
+    //P(22)
     uint8_t EFLAGS[16];
 
+    //P(22)
     uint16_t ip;
 
     uint16_t cs;
@@ -74,10 +76,12 @@ class CPU
 
     Memory* memory;
 
-    void Mem_PutByte(uint16_t address, uint8_t value);
-    void Mem_PutWord(uint16_t address, uint16_t value);
-    uint8_t Mem_GetByte(uint16_t address);
-    uint16_t Mem_GetWord(uint16_t address);
+public:
+    uint32_t CalculateAddress(uint16_t segment, uint16_t address);
+    void Mem_PutByte(uint16_t segment, uint16_t address, uint8_t value);
+    void Mem_PutWord(uint16_t segment, uint16_t address, uint16_t value);
+    uint8_t Mem_GetByte(uint16_t segment, uint16_t address);
+    uint16_t Mem_GetWord(uint16_t segment, uint16_t address);
     void Push(uint16_t value);
     uint16_t Pop();
 
