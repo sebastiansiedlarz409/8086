@@ -3,6 +3,25 @@
 
 CPU::CPU(Memory* memory){
     memory = memory;
+
+    //default segments
+    CS = 0;
+    DS = 0x1000;
+    ES = 0x2000;
+    SS = 0x3000;
+
+    AX = 0;
+    BX = 0;
+    CX = 0;
+    DX = 0;
+
+    IP = CS;
+
+    SP = 0xFFFD;
+    BP = SP;
+
+    DI = 0;
+    SI = 0;
 }
 
 uint32_t CPU::CalculateAddress(uint16_t segment, uint16_t address){
