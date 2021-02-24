@@ -25,15 +25,15 @@
 #define ES es
 #define IP ip
 
-#define TF EFLAGS[4]; //trap
-#define DF EFLAGS[5]; //direction
-#define IF EFLAGS[6]; //interrupt enable
-#define OF EFLAGS[7]; //overflow
-#define SF EFLAGS[8]; //sign
-#define ZF EFLAGS[9]; //zero
-#define AF EFLAGS[11]; //auxiliary
-#define PF EFLAGS[13]; //parity
-#define CF EFLAGS[15]; //carry
+#define TF EFLAGS[4] //trap
+#define DF EFLAGS[5] //direction
+#define IF EFLAGS[6] //interrupt enable
+#define OF EFLAGS[7] //overflow
+#define SF EFLAGS[8] //sign
+#define ZF EFLAGS[9] //zero
+#define AF EFLAGS[11] //auxiliary
+#define PF EFLAGS[13] //parity
+#define CF EFLAGS[15] //carry
 
 class CPU
 {   

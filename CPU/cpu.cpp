@@ -10,18 +10,18 @@ CPU::CPU(Memory* memory){
     ES = 0x2000;
     SS = 0x3000;
 
-    AX = 0;
-    BX = 0;
-    CX = 0;
-    DX = 0;
+    AX = BX = CX = DX = 0;
 
     IP = CS;
 
     SP = 0xFFFD;
     BP = SP;
 
-    DI = 0;
-    SI = 0;
+    DI = SI = 0;
+
+    //flags
+    TF = DF = IF = OF = 0;
+    SF = ZF = AF = PF = CF = 0;
 }
 
 uint32_t CPU::CalculateAddress(uint16_t segment, uint16_t address){
