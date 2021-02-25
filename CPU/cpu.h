@@ -86,5 +86,6 @@ public:
     uint16_t Pop();
 
 public:
+    Memory* GetMemory();
     CPU(Memory* memory);
 };

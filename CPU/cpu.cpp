@@ -5,14 +5,12 @@ CPU::CPU(Memory* memory){
     memory = memory;
 
     //default segments
-    CS = 0;
-    DS = 0x1000;
-    ES = 0x2000;
-    SS = 0x3000;
+    DS = ES = SS = 0;
+    CS = 0xFFFF;
 
     AX = BX = CX = DX = 0;
 
-    IP = CS;
+    IP = 0;
 
     SP = 0xFFFD;
     BP = SP;
@@ -56,4 +54,8 @@ uint16_t CPU::Pop(){
     uint16_t value = Mem_GetWord(SS, SP);
     SP+=2;
     return value;
+}
+
+Memory* CPU::GetMemory(){
+    return memory;
 }
