@@ -12,7 +12,7 @@ void CPU::Reset(){
 
     AX = BX = CX = DX = 0;
 
-    IP = 0;
+    IP = Mem_GetWord(0xFFFF, 0);
 
     SP = 0xFFFD;
     BP = SP;
