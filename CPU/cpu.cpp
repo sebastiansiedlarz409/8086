@@ -3,7 +3,9 @@
 
 CPU::CPU(Memory* memory){
     memory = memory;
+}
 
+void CPU::Reset(){
     //default segments
     DS = ES = SS = 0;
     CS = 0xFFFF;

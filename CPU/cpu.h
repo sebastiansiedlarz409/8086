@@ -37,26 +37,10 @@
 
 class CPU
 {   
-    //P(22)
-    uint8_t EFLAGS[16];
-
-    //P(22)
-    uint16_t ip;
-
-    uint16_t cs;
-    uint16_t ds;
-    uint16_t es;
-    uint16_t ss;
-
     AX_R AX_Register;
     BX_R BX_Register;
     CX_R CX_Register;
     DX_R DX_Register;
-
-    uint16_t bp;
-    uint16_t sp;
-    uint16_t di;
-    uint16_t si;
 
     uint16_t* ax = &AX_Register.AX_R;
     uint8_t* ah = &AX_Register.AH_R;
@@ -73,19 +57,34 @@ class CPU
     uint16_t* dx = &DX_Register.DX_R;
     uint8_t* dh = &DX_Register.DH_R;
     uint8_t* dl = &DX_Register.DL_R;
+    
+    public:
+    //P(22)
+    uint8_t EFLAGS[16];
+
+    //P(22)
+    uint16_t ip;
+
+    uint16_t cs;
+    uint16_t ds;
+    uint16_t es;
+    uint16_t ss;
+
+    uint16_t bp;
+    uint16_t sp;
+    uint16_t di;
+    uint16_t si;
 
     Memory* memory;
 
-public:
     uint32_t CalculateAddress(uint16_t segment, uint16_t address);
+    void Push(uint16_t value);
+    uint16_t Pop();
+    void Reset();
+    Memory* GetMemory();
     void Mem_PutByte(uint16_t segment, uint16_t address, uint8_t value);
     void Mem_PutWord(uint16_t segment, uint16_t address, uint16_t value);
     uint8_t Mem_GetByte(uint16_t segment, uint16_t address);
     uint16_t Mem_GetWord(uint16_t segment, uint16_t address);
-    void Push(uint16_t value);
-    uint16_t Pop();
-
-public:
-    Memory* GetMemory();
     CPU(Memory* memory);
 };
