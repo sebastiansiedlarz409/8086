@@ -1,6 +1,7 @@
 #include <cstdio>
 
 #include "CPU\cpu.h"
+#include "debugger\debugger.h"
 #include "Memory\memory.h"
 #include "Programmer\programmer.h"
 
@@ -11,6 +12,8 @@ int main()
 {
     Memory memory;
     CPU cpu(&memory);
+
+    printf("Created\r\n");
 
     uint8_t program[36] = {
         //header start
@@ -39,5 +42,11 @@ int main()
     Programmer programmer;
     programmer.Program(&cpu, program, 36);
 
+    printf("Programed\n\r");
+
+    Debugger debugger(&cpu);
+    //debugger.Registers();
+
+    printf("Done\n\r");
     return 0;
 }
