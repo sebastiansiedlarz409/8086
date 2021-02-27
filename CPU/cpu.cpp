@@ -8,7 +8,7 @@ void CPU::Reset(Memory& mem){
 
     AX = BX = CX = DX = 0;
 
-    IP = Mem_GetWord(mem, 0x0, 0);
+    IP = Mem_GetWord(mem, 0xFFFF, 0);
 
     SP = 0xFFFD;
     BP = SP;

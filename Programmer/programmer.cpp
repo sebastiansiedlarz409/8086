@@ -21,7 +21,7 @@ void Programmer::Program(CPU& cpu, Memory& mem, uint8_t* byte_code, uint32_t siz
         code_p++;
     }
 
-    cpu.Mem_PutWord(mem, 0, 0, 0);     //reset vector
+    cpu.Mem_PutWord(mem, 0xFFFF, 0, 0);     //reset vector
 
     cpu.Reset(mem);
 }
