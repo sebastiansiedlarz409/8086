@@ -2,8 +2,6 @@
 #include "programmer.h"
 
 void Programmer::Program(CPU* cpu, uint8_t* byte_code, uint32_t size){
-    Memory* memory = cpu->GetMemory();
-
     uint16_t ss = (byte_code[15]<<8)|byte_code[14];
     uint16_t sp = (byte_code[17]<<8)|byte_code[16];
 
@@ -16,11 +14,13 @@ void Programmer::Program(CPU* cpu, uint8_t* byte_code, uint32_t size){
     cpu->CS = cs;
     cpu->IP = ip;
 
+    uint16_t code_p = 0;
     for(uint32_t i = 30; i < size; i++){
-        cpu->Mem_PutByte(cpu->cs, 0, byte_code[i]);
+        cpu->Mem_PutByte(cpu->cs, code_p, byte_code[i]);
+        code_p++;
     }
 
-    cpu->Mem_PutWord(0xFFFF, 0, 0);
+    cpu->Mem_PutWord(0, 0, 0);     //reset vector
 
     cpu->Reset();
 }

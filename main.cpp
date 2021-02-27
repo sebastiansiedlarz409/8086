@@ -1,7 +1,7 @@
 #include <cstdio>
 
 #include "CPU\cpu.h"
-#include "debugger\debugger.h"
+#include "Debugger\debugger.h"
 #include "Memory\memory.h"
 #include "Programmer\programmer.h"
 
@@ -12,6 +12,7 @@ int main()
 {
     Memory memory;
     CPU cpu(&memory);
+    cpu.Reset();
 
     printf("Created\r\n");
 
@@ -45,7 +46,7 @@ int main()
     printf("Programed\n\r");
 
     Debugger debugger(&cpu);
-    //debugger.Registers();
+    debugger.Registers();
 
     printf("Done\n\r");
     return 0;

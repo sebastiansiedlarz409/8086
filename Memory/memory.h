@@ -2,12 +2,12 @@
 
 #include <cstdint>
 
-#define MemorySize 1024*1024
-
 class Memory{
-    uint8_t space[MemorySize];
+    static constexpr uint32_t MemorySize = 0x10FFEF;
+    uint8_t *space;
 
     public:
     Memory();
-    uint8_t& operator[](uint16_t address);
+    uint8_t& operator[](uint32_t address);
+    uint8_t operator[](uint32_t address) const;
 };
