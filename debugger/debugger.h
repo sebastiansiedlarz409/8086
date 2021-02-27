@@ -1,11 +1,9 @@
 #pragma once
 
 #include "..\CPU\cpu.h"
+#include "..\Memory\memory.h"
 
 class Debugger{
-    CPU* cpu;
-
     public:
-    Debugger(CPU* cpu);
-    void Registers();
+    void Registers(CPU& cpu, Memory& mem);
 };

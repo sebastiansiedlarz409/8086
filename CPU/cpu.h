@@ -78,13 +78,11 @@ class CPU
     Memory* memory;
 
     uint32_t CalculateAddress(uint16_t segment, uint16_t address);
-    void Push(uint16_t value);
-    uint16_t Pop();
-    void Reset();
-    Memory* GetMemory();
-    void Mem_PutByte(uint16_t segment, uint16_t address, uint8_t value);
-    void Mem_PutWord(uint16_t segment, uint16_t address, uint16_t value);
-    uint8_t Mem_GetByte(uint16_t segment, uint16_t address);
-    uint16_t Mem_GetWord(uint16_t segment, uint16_t address);
-    CPU(Memory* memory);
+    void Push(Memory& mem, uint16_t value);
+    uint16_t Pop(Memory& mem);
+    void Reset(Memory& mem);
+    void Mem_PutByte(Memory& mem, uint16_t segment, uint16_t address, uint8_t value);
+    void Mem_PutWord(Memory& mem, uint16_t segment, uint16_t address, uint16_t value);
+    uint8_t Mem_GetByte(const Memory& mem, uint16_t segment, uint16_t address);
+    uint16_t Mem_GetWord(const Memory& mem, uint16_t segment, uint16_t address);
 };

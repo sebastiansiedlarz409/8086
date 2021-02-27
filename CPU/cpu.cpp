@@ -1,18 +1,14 @@
 #include "cpu.h"
 #include "..\Memory\memory.h"
 
-CPU::CPU(Memory* memory){
-    memory = memory;
-}
-
-void CPU::Reset(){
+void CPU::Reset(Memory& mem){
     //default segments
     DS = ES = SS = 0;
     CS = 0xFFFF;
 
     AX = BX = CX = DX = 0;
 
-    IP = Mem_GetWord(0xFFFF, 0);
+    IP = Mem_GetWord(mem, 0x0, 0);
 
     SP = 0xFFFD;
     BP = SP;
@@ -25,43 +21,39 @@ void CPU::Reset(){
 }
 
 uint32_t CPU::CalculateAddress(uint16_t segment, uint16_t address){
-    return (segment<<4)|address;
+    return (segment<<4)+address;
 }
 
-void CPU::Mem_PutByte(uint16_t segment, uint16_t address, uint8_t value){
-    Memory mem = *memory;
+void CPU::Mem_PutByte(Memory& mem, uint16_t segment, uint16_t address, uint8_t value){
+    //Memory mem = *memory;
     mem[CalculateAddress(segment, address)] = value;
 }
 
-void CPU::Mem_PutWord(uint16_t segment, uint16_t address, uint16_t value){
-    Memory mem = *memory;
+void CPU::Mem_PutWord(Memory& mem, uint16_t segment, uint16_t address, uint16_t value){
+    //Memory mem = *memory;
     mem[CalculateAddress(segment, address)] = (uint8_t)value&0xff;
     mem[CalculateAddress(segment, ++address)] = (uint8_t)((value >> 8)&0xff);
 }
 
-uint8_t CPU::Mem_GetByte(uint16_t segment, uint16_t address){
-    const Memory mem = *memory;
+uint8_t CPU::Mem_GetByte(const Memory& mem, uint16_t segment, uint16_t address){
+    //const Memory mem = *memory;
     return mem[CalculateAddress(segment, address)];
 }
 
-uint16_t CPU::Mem_GetWord(uint16_t segment, uint16_t address){
-    const Memory mem = *memory;
+uint16_t CPU::Mem_GetWord(const Memory& mem, uint16_t segment, uint16_t address){
+    //const Memory mem = *memory;
     uint8_t lsb = mem[CalculateAddress(segment, address)];
     uint8_t msb = mem[CalculateAddress(segment, ++address)];
     return (msb<<8)|lsb;
 }
 
-void CPU::Push(uint16_t value){
-    Mem_PutWord(SS, SP, value);
+void CPU::Push(Memory& mem, uint16_t value){
+    Mem_PutWord(mem, SS, SP, value);
     SP-=2;
 }
 
-uint16_t CPU::Pop(){
-    uint16_t value = Mem_GetWord(SS, SP);
+uint16_t CPU::Pop(Memory& mem){
+    uint16_t value = Mem_GetWord(mem, SS, SP);
     SP+=2;
     return value;
-}
-
-Memory* CPU::GetMemory(){
-    return memory;
 }

@@ -11,8 +11,8 @@
 int main()
 {
     Memory memory;
-    CPU cpu(&memory);
-    cpu.Reset();
+    CPU cpu;
+    cpu.Reset(memory);
 
     printf("Created\r\n");
 
@@ -41,12 +41,12 @@ int main()
     };
 
     Programmer programmer;
-    programmer.Program(&cpu, program, 36);
+    programmer.Program(cpu, memory, program, 36);
 
-    printf("Programed\n\r");
+    printf("Programmed\n\r");
 
-    Debugger debugger(&cpu);
-    debugger.Registers();
+    Debugger debugger;
+    debugger.Registers(cpu, memory);
 
     printf("Done\n\r");
     return 0;

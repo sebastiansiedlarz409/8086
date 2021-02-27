@@ -4,7 +4,7 @@
 
 class Memory{
     static constexpr uint32_t MemorySize = 0x10FFEF;
-    uint8_t *space;
+    uint8_t space[MemorySize];
 
     public:
     Memory();
