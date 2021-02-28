@@ -43,8 +43,8 @@ uint16_t CPU::Mem_GetWord(const Memory& mem, uint16_t segment, uint16_t address)
 }
 
 void CPU::Push(Memory& mem, uint16_t value){
-    Mem_PutWord(mem, SS, SP, value);
     SP-=2;
+    Mem_PutWord(mem, SS, SP, value);
 }
 
 uint16_t CPU::Pop(Memory& mem){
@@ -75,6 +75,12 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             cycle-=2;
             AX = buffer16[0];
             cycle--;
+            break;
+        case PUSH_AX:
+            buffer16[0] = AX;
+            cycle-=5;
+            Push(mem, buffer16[0]);
+            cycle-=5;
             break;
         default:
             cycle--;

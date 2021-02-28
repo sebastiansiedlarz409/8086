@@ -18,7 +18,7 @@ int main()
     
     printf("Created\r\n");
 
-    uint8_t program[33] = {
+    uint8_t program[34] = {
         //header start
         0x4D, 0x5A,  //MZ
         0x00, 0x00,
@@ -37,15 +37,16 @@ int main()
         0x00, 0x00,
         //header end
         //program 1
-        0xA1, 0x00, 0x20,
+        0xA1, 0x00, 0x20,   //mov ax, 0x2000
+        0x50,               //push ax
         //program 1 end
     };
 
     Programmer programmer;
-    programmer.Program(cpu, memory, program, 33);
+    programmer.Program(cpu, memory, program, 34);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 4);
+    cpu.Execute(memory, 15);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);
