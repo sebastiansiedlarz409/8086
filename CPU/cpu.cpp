@@ -1,4 +1,5 @@
 #include "cpu.h"
+#include "instruction.h"
 #include "..\Memory\memory.h"
 
 void CPU::Reset(Memory& mem){
@@ -51,4 +52,34 @@ uint16_t CPU::Pop(Memory& mem){
     uint16_t value = Mem_GetWord(mem, SS, SP);
     SP+=2;
     return value;
+}
+
+uint8_t CPU::FetchInstruction(Memory& mem, uint16_t& cycle){
+    uint8_t value = Mem_GetByte(mem, CS, IP);
+    cycle--;
+    IP++;
+    return value;
+}
+
+void CPU::Execute(Memory& mem, uint16_t cycle){
+    uint16_t buffer16[4];
+    uint8_t buffer8[4];
+
+    while(cycle){
+        uint8_t ins = FetchInstruction(mem, cycle);
+
+        switch (ins)
+        {
+        case MOV_AX_IMM16:
+            buffer16[0] = Mem_GetWord(mem, CS, IP);
+            IP+=2;
+            cycle-=2;
+            AX = buffer16[0];
+            cycle--;
+            break;
+        default:
+            cycle--;
+            break;
+        }
+    }    
 }

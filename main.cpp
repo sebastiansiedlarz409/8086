@@ -7,6 +7,8 @@
 
 //https://edge.edx.org/c4x/BITSPilani/EEE231/asset/8086_family_Users_Manual_1_.pdf
 //https://wiki.osdev.org/MZ
+//https://csiflabs.cs.ucdavis.edu/~ssdavis/50/8086%20Opcodes.pdf
+//https://www.gabrielececchetti.it/Teaching/CalcolatoriElettronici/Docs/i8086_instruction_set.pdf
 
 int main()
 {
@@ -35,13 +37,15 @@ int main()
         0x00, 0x00,
         //header end
         //program 1
-        0xB8, 0x02, 0x00,
+        0xA1, 0x00, 0x20,
         //program 1 end
     };
 
     Programmer programmer;
     programmer.Program(cpu, memory, program, 33);
     printf("Programmed\n\r");
+
+    cpu.Execute(memory, 4);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);
