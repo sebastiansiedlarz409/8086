@@ -47,6 +47,7 @@ int main()
 
     Debugger debugger;
     debugger.Registers(cpu, memory);
+    debugger.Eflags(cpu, memory);
 
     printf("Done\n\r");
     return 0;

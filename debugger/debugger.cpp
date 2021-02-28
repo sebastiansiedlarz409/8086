@@ -24,4 +24,39 @@ void Debugger::Registers(CPU& cpu, Memory& mem){
     uint8_t dh = cpu.DH;
     uint8_t dl = cpu.DL;
     printf("DX: 0x%x \tDH: 0x%x \tDL: 0x%x\n\r", dx, dh, dl);
+
+    uint16_t ip = cpu.IP;
+    uint16_t sp = cpu.SP;
+    uint16_t bp = cpu.BP;
+    uint16_t di = cpu.DI;
+    uint16_t si = cpu.SI;
+    printf("IP: 0x%x \tSP: 0x%x \tBP: 0x%x \tDI: 0x%x \tSI: 0x%x\n\r", ip, sp, bp, di, si);
+    
+    uint16_t cs = cpu.CS;
+    uint16_t ds = cpu.DS;
+    uint16_t es = cpu.ES;
+    uint16_t ss = cpu.SS;
+    printf("CS: 0x%x \tDS: 0x%x \tES: 0x%x \tSS: 0x%x\n\r", cs, ds, es, ss);
+}
+
+void Debugger::Eflags(CPU& cpu, Memory& memory){
+    uint8_t OF = cpu.OF;
+    uint8_t IF = cpu.IF;
+    uint8_t DF = cpu.DF;
+    uint8_t TF = cpu.TF;
+    uint8_t SF = cpu.SF;
+    uint8_t ZF = cpu.ZF;
+    uint8_t AF = cpu.AF;
+    uint8_t PF = cpu.PF;
+    uint8_t CF = cpu.CF;
+    printf("%s %s %s %s %s %s %s %s %s\n\r",
+    OF == 1 ? "OF" : "of",
+    IF == 1 ? "IF" : "if",
+    DF == 1 ? "DF" : "df",
+    TF == 1 ? "TF" : "tf",
+    SF == 1 ? "SF" : "sf",
+    ZF == 1 ? "ZF" : "zf",
+    AF == 1 ? "AF" : "af",
+    PF == 1 ? "PF" : "pf",
+    CF == 1 ? "CF" : "cf");
 }

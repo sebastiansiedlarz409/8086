@@ -6,4 +6,5 @@
 class Debugger{
     public:
     void Registers(CPU& cpu, Memory& mem);
+    void Eflags(CPU& cpu, Memory& mem);
 };
