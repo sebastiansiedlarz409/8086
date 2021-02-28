@@ -4,7 +4,6 @@
 void CPU::Reset(Memory& mem){
     //default segments
     DS = ES = SS = 0;
-    CS = 0xFFFF;
 
     AX = BX = CX = DX = 0;
 

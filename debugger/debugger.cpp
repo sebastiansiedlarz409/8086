@@ -61,35 +61,17 @@ void Debugger::Eflags(CPU& cpu, Memory& memory){
     CF == 1 ? "CF" : "cf");
 }
 
-void Debugger::ShowSegment(CPU& cpu, Memory& mem, Segment seg, uint16_t offset, uint16_t size){
-    uint16_t segment;
-    
-    switch (seg)
-    {
-    case DS:
-        segment = cpu.DS;
-        break;
-    case ES:
-        segment = cpu.ES;
-        break;
-    case SS:
-        segment = cpu.SS;
-        break;
-    default:
-        segment = cpu.CS;
-        break;
-    }
-
+void Debugger::ShowSegment(CPU& cpu, Memory& mem, uint16_t seg, uint16_t offset, uint16_t size){
     for(uint16_t i = 0;i<size;i++){
-        uint8_t value = cpu.Mem_GetByte(mem, segment, offset+i);
+        uint8_t value = cpu.Mem_GetByte(mem, seg, offset+i);
         if(i%32 == 0){
-            printf("\n\r0x%x:\t",i+offset);
+            printf("\n\r0x%x:\t",cpu.CalculateAddress(seg, offset+i));
         }
         if(value < 0x10){
-            printf("0%u ", value);
+            printf("0%x ", value);
         }
         else{
-            printf("%u ", value);
+            printf("%x ", value);
         }
     }
 

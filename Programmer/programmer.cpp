@@ -13,15 +13,14 @@ void Programmer::Program(CPU& cpu, Memory& mem, uint8_t* byte_code, uint32_t siz
     cpu.SP = sp;
 
     cpu.CS = cs;
-    cpu.IP = ip;
 
     uint16_t code_p = 0;
     for(uint32_t i = 30; i < size; i++){
-        cpu.Mem_PutByte(mem, cpu.CS, code_p, byte_code[i]);
+        cpu.Mem_PutByte(mem, cs, code_p, byte_code[i]);
         code_p++;
     }
 
-    cpu.Mem_PutWord(mem, 0xFFFF, 0, 0);     //reset vector
+    cpu.Mem_PutWord(mem, 0xFFFF, 0, ip);     //reset vector
 
     cpu.Reset(mem);
 }
