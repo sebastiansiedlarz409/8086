@@ -17,7 +17,7 @@ void Programmer::Program(CPU& cpu, Memory& mem, uint8_t* byte_code, uint32_t siz
 
     uint16_t code_p = 0;
     for(uint32_t i = 30; i < size; i++){
-        cpu.Mem_PutByte(mem, cpu.cs, code_p, byte_code[i]);
+        cpu.Mem_PutByte(mem, cpu.CS, code_p, byte_code[i]);
         code_p++;
     }
 

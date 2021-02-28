@@ -25,23 +25,19 @@ uint32_t CPU::CalculateAddress(uint16_t segment, uint16_t address){
 }
 
 void CPU::Mem_PutByte(Memory& mem, uint16_t segment, uint16_t address, uint8_t value){
-    //Memory mem = *memory;
     mem[CalculateAddress(segment, address)] = value;
 }
 
 void CPU::Mem_PutWord(Memory& mem, uint16_t segment, uint16_t address, uint16_t value){
-    //Memory mem = *memory;
     mem[CalculateAddress(segment, address)] = (uint8_t)value&0xff;
     mem[CalculateAddress(segment, ++address)] = (uint8_t)((value >> 8)&0xff);
 }
 
 uint8_t CPU::Mem_GetByte(const Memory& mem, uint16_t segment, uint16_t address){
-    //const Memory mem = *memory;
     return mem[CalculateAddress(segment, address)];
 }
 
 uint16_t CPU::Mem_GetWord(const Memory& mem, uint16_t segment, uint16_t address){
-    //const Memory mem = *memory;
     uint8_t lsb = mem[CalculateAddress(segment, address)];
     uint8_t msb = mem[CalculateAddress(segment, ++address)];
     return (msb<<8)|lsb;

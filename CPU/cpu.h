@@ -3,37 +3,18 @@
 #include "..\Memory\memory.h"
 #include "register.h"
 
-#define AX *ax
-#define AH *ah
-#define AL *al
-#define BX *bx
-#define BH *bh
-#define BL *bl
-#define CX *cx
-#define CH *ch
-#define CL *cl
-#define DX *dx
-#define DH *dh
-#define DL *dl
-#define SP sp
-#define BP bp
-#define DI di
-#define SI si
-#define CS cs
-#define DS ds
-#define SS ss
-#define ES es
-#define IP ip
-
-#define TF EFLAGS[4] //trap
-#define DF EFLAGS[5] //direction
-#define IF EFLAGS[6] //interrupt enable
-#define OF EFLAGS[7] //overflow
-#define SF EFLAGS[8] //sign
-#define ZF EFLAGS[9] //zero
-#define AF EFLAGS[11] //auxiliary
-#define PF EFLAGS[13] //parity
-#define CF EFLAGS[15] //carry
+#define AX AX_Register.AX_R
+#define AH AX_Register.AH_R
+#define AL AX_Register.AL_R
+#define BX BX_Register.BX_R
+#define BH BX_Register.BH_R
+#define BL BX_Register.BL_R
+#define CX CX_Register.CX_R
+#define CH CX_Register.CH_R
+#define CL CX_Register.CL_R
+#define DX DX_Register.DX_R
+#define DH DX_Register.DH_R
+#define DL DX_Register.DL_R
 
 class CPU
 {   
@@ -42,45 +23,45 @@ class CPU
     CX_R CX_Register;
     DX_R DX_Register;
 
-    uint16_t* ax = &AX_Register.AX_R;
-    uint8_t* ah = &AX_Register.AH_R;
-    uint8_t* al = &AX_Register.AL_R;
+    public:    
+    //P(22) EFLAGS
+    struct{
+        uint8_t NU16 : 1;
+        uint8_t NU15 : 1;
+        uint8_t NU14 : 1;
+        uint8_t NU13 : 1;
+        uint8_t NU12 : 1;
+        uint8_t OF : 1; //overflow
+        uint8_t DF : 1; //direction
+        uint8_t IF : 1; //interrupt enable
+        uint8_t TF : 1; //trap
+        uint8_t SF : 1; //sign
+        uint8_t ZF : 1; //zero
+        uint8_t NU5 : 1;
+        uint8_t AF : 1; //auxiliary
+        uint8_t NU3 : 1;
+        uint8_t PF : 1; //parity
+        uint8_t NU1 : 1; 
+        uint8_t CF : 1; //cary
+    };
 
-    uint16_t* bx = &BX_Register.BX_R;
-    uint8_t* bh = &BX_Register.BH_R;
-    uint8_t* bl = &BX_Register.BL_R;
+    //P(22)
+    uint16_t IP;
 
-    uint16_t* cx = &CX_Register.CX_R;
-    uint8_t* ch = &CX_Register.CH_R;
-    uint8_t* cl = &CX_Register.CL_R;
+    uint16_t CS;
+    uint16_t DS;
+    uint16_t ES;
+    uint16_t SS;
 
-    uint16_t* dx = &DX_Register.DX_R;
-    uint8_t* dh = &DX_Register.DH_R;
-    uint8_t* dl = &DX_Register.DL_R;
+    uint16_t BP;
+    uint16_t SP;
+    uint16_t DI;
+    uint16_t SI;
     
-    public:
-    //P(22)
-    uint8_t EFLAGS[16];
-
-    //P(22)
-    uint16_t ip;
-
-    uint16_t cs;
-    uint16_t ds;
-    uint16_t es;
-    uint16_t ss;
-
-    uint16_t bp;
-    uint16_t sp;
-    uint16_t di;
-    uint16_t si;
-
-    Memory* memory;
-
+    void Reset(Memory& mem); 
     uint32_t CalculateAddress(uint16_t segment, uint16_t address);
     void Push(Memory& mem, uint16_t value);
     uint16_t Pop(Memory& mem);
-    void Reset(Memory& mem);
     void Mem_PutByte(Memory& mem, uint16_t segment, uint16_t address, uint8_t value);
     void Mem_PutWord(Memory& mem, uint16_t segment, uint16_t address, uint16_t value);
     uint8_t Mem_GetByte(const Memory& mem, uint16_t segment, uint16_t address);
