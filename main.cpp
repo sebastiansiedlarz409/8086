@@ -13,7 +13,7 @@ int main()
     Memory memory;
     CPU cpu;
     cpu.Reset(memory);
-
+    
     printf("Created\r\n");
 
     uint8_t program[36] = {
