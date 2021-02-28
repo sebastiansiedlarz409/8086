@@ -48,7 +48,7 @@ int main()
     Debugger debugger;
     debugger.Registers(cpu, memory);
     debugger.Eflags(cpu, memory);
-    debugger.ShowSegment(cpu, memory, DS, 100, 256);
+    debugger.ShowSegment(cpu, memory, DS, 0, 256);
 
     printf("Done\n\r");
     return 0;
