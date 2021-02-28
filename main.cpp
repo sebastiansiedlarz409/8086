@@ -51,6 +51,7 @@ int main()
     debugger.Registers(cpu, memory);
     debugger.Eflags(cpu, memory);
     debugger.ShowSegment(cpu, memory, cpu.CS, 0x0, 256);
+    debugger.ShowStack(cpu, memory, 2);
 
     printf("Done\n\r");
     return 0;

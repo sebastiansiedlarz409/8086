@@ -10,7 +10,6 @@ void CPU::Reset(Memory& mem){
 
     IP = Mem_GetWord(mem, 0xFFFF, 0);
 
-    SP = 0xFFFD;
     BP = SP;
 
     DI = SI = 0;

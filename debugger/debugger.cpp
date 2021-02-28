@@ -77,3 +77,20 @@ void Debugger::ShowSegment(CPU& cpu, Memory& mem, uint16_t seg, uint16_t offset,
 
     printf("\n\r");
 }
+
+void Debugger::ShowStack(CPU& cpu, Memory& mem, uint16_t size){
+    printf("\n\rSTACK:\n\r");
+    uint16_t sp = cpu.SP;
+    for(uint16_t i = 0;i<size;i++){
+        if(sp>=cpu.SS+0xFFFF){
+            break;
+        }
+        
+        uint16_t value = cpu.Mem_GetWord(mem, cpu.SS, sp);
+        printf("0x%x:0x%x: \t0x%x\n\r", cpu.SP, sp, value);
+        
+        sp+=2;
+    }
+
+    printf("\n\r");
+}
