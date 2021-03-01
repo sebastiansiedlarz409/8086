@@ -1,7 +1,9 @@
+#include <vector>
+
 #include "..\CPU\cpu.h"
 #include "programmer.h"
 
-void Programmer::Program(CPU& cpu, Memory& mem, uint8_t* byte_code, uint32_t size){
+void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
 
     uint16_t ss = (byte_code[15]<<8)|byte_code[14];
     uint16_t sp = (byte_code[17]<<8)|byte_code[16];
@@ -15,7 +17,7 @@ void Programmer::Program(CPU& cpu, Memory& mem, uint8_t* byte_code, uint32_t siz
     cpu.CS = cs;
 
     uint16_t code_p = 0;
-    for(uint32_t i = 30; i < size; i++){
+    for(uint32_t i = 30; i < byte_code.size(); i++){
         cpu.Mem_PutByte(mem, cs, code_p, byte_code[i]);
         code_p++;
     }

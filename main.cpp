@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <vector>
 
 #include "CPU\cpu.h"
 #include "Debugger\debugger.h"
@@ -18,7 +19,7 @@ int main()
     
     printf("Created\r\n");
 
-    uint8_t program[34] = {
+    std::vector<uint8_t> program = {
         //header start
         0x4D, 0x5A,  //MZ
         0x00, 0x00,
@@ -39,14 +40,15 @@ int main()
         //program 1
         0xA1, 0x00, 0x20,   //mov ax, 0x2000
         0x50,               //push ax
+        0x59,
         //program 1 end
     };
 
     Programmer programmer;
-    programmer.Program(cpu, memory, program, 34);
+    programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 15);
+    cpu.Execute(memory, 23);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);

@@ -82,8 +82,16 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             Push(mem, buffer16[0]);
             cycle-=5;
             break;
+        case POP_AX:
+            AX = Pop(mem);
+            cycle-=8;
+            break;
+        case POP_CX:
+            CX = Pop(mem);
+            cycle-=8;
+            break;
         default:
-            cycle--;
+            //cycle--;
             break;
         }
     }    
