@@ -61,6 +61,11 @@ class Registers{
         uint8_t CF : 1; //cary
     };
 
+    //P(65)
+    //X - depends on result
+    //R - restored
+    //U - undefined
+
     //P(22)
     uint16_t IP;
 

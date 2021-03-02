@@ -16,4 +16,5 @@ class CPU : public Registers
     uint16_t Mem_GetWord(const Memory& mem, uint16_t segment, uint16_t address);
     uint8_t FetchInstruction(Memory& mem, uint16_t& cycle);
     void Execute(Memory& mem, uint16_t cycle);
+    void SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z);
 };

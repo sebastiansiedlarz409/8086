@@ -40,7 +40,8 @@ int main()
         //program 1
         0xA1, 0x00, 0x20,   //mov ax, 0x2000
         0x50,               //push ax
-        0x59,
+        0x59,               //pop cx
+        0x05, 0xFF, 0x10,   //add ax, 0x10FF
         //program 1 end
     };
 
@@ -48,7 +49,7 @@ int main()
     programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 23);
+    cpu.Execute(memory, 27);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);

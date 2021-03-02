@@ -60,6 +60,15 @@ uint8_t CPU::FetchInstruction(Memory& mem, uint16_t& cycle){
     return value;
 }
 
+void CPU::SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z){
+    OF = o;
+    SF = s;
+    CF = c;
+    AF = a;
+    PF = p;
+    ZF = z;
+}
+
 void CPU::Execute(Memory& mem, uint16_t cycle){
     uint16_t buffer16[4];
     uint8_t buffer8[4];
@@ -84,14 +93,29 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             break;
         case POP_AX:
             AX = Pop(mem);
-            cycle-=8;
+            cycle-=7;
             break;
         case POP_CX:
             CX = Pop(mem);
-            cycle-=8;
+            cycle-=7;
+            break;
+        case ADD_AX_IMM16:
+            buffer16[0] = Mem_GetWord(mem, CS, IP);
+            IP+=2;
+            buffer16[1] = AX;
+            AX += buffer16[0];
+            SetFLAGS(
+                ((buffer16[1]&0x80 && buffer16[0]&0x80 && (AX&0x80) == 0)||((buffer16[1]&0x80) == 0 && (buffer16[0]&0x80) == 0 && AX&0x80)) ? 1 : 0,
+                AX & 0b10000000,
+                buffer16[1] + buffer16[0] > UINT16_MAX ? 1 : 0,
+                0,
+                0,
+                AX == 0 ? 1 : 0
+            );
+            cycle-=3;
             break;
         default:
-            //cycle--;
+            cycle--;
             break;
         }
     }    
