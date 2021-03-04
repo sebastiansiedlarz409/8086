@@ -131,6 +131,13 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             AX = buffer16[0];
             cycle--;
             break;
+        case MOV_AX_RM16:
+            buffer16[0] = Mem_GetWord(mem, CS, IP); //addr
+            IP+=2;
+            buffer16[1] = Mem_GetWord(mem, DS, buffer16[0]);
+            AX = buffer16[1];
+            cycle-=7; //EA?
+            break;
         case PUSH_AX:
             buffer16[0] = AX;
             cycle-=5;
