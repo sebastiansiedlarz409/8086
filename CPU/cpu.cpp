@@ -60,6 +60,52 @@ uint8_t CPU::FetchInstruction(Memory& mem, uint16_t& cycle){
     return value;
 }
 
+uint8_t CPU::GetOF(uint16_t value1, uint16_t value2){
+    if(value1&0x8000 && value2&0x8000 && (AX&0x8000) == 0){
+        return 1;
+    }
+    if((value1&0x8000) == 0 && (value2&0x8000) == 0 && AX&0x8000){
+        return 1;
+    }
+
+    return 0;
+}
+
+uint8_t CPU::GetSF(uint16_t value){
+    return value & 0x8000;
+}
+
+uint8_t CPU::GetCF(uint16_t value1, uint16_t value2){
+    return value1 + value2 > UINT16_MAX ? 1 : 0;
+}
+
+uint8_t CPU::GetZF(uint16_t value){
+    return value == 0 ? 1 : 0;
+}
+
+uint8_t CPU::GetPF(uint16_t value){
+    uint8_t counter = 0;
+
+    for(uint8_t i = 0;i<8;i++){
+        if(value & (1 << i))
+            counter++;
+    }
+
+    if(counter % 2){
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+
+uint8_t CPU::GetAF(uint16_t value1, uint16_t value2){
+    if((value1 & 0xF) + (value2 & 0xF) > 0xF){
+        return 1;
+    }
+    return 0;
+}
+
 void CPU::SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z){
     OF = o;
     SF = s;
@@ -105,12 +151,12 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             buffer16[1] = AX;
             AX += buffer16[0];
             SetFLAGS(
-                ((buffer16[1]&0x80 && buffer16[0]&0x80 && (AX&0x80) == 0)||((buffer16[1]&0x80) == 0 && (buffer16[0]&0x80) == 0 && AX&0x80)) ? 1 : 0,
-                AX & 0b10000000,
-                buffer16[1] + buffer16[0] > UINT16_MAX ? 1 : 0,
-                0,
-                0,
-                AX == 0 ? 1 : 0
+                GetOF(buffer16[0], buffer16[1]),
+                GetSF(AX),
+                GetCF(buffer16[0], buffer16[1]),
+                GetAF(buffer16[0], buffer16[1]),
+                GetPF(AX),
+                GetZF(AX)
             );
             cycle-=3;
             break;
