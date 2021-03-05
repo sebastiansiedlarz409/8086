@@ -119,7 +119,11 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
     uint16_t buffer16[4];
     uint8_t buffer8[4];
 
-    while(cycle){
+    uint8_t mod;
+    uint8_t rm;
+    uint8_t reg;
+
+    while(cycle > 0){
         uint8_t ins = FetchInstruction(mem, cycle);
 
         switch (ins)
@@ -137,6 +141,19 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             buffer16[1] = Mem_GetWord(mem, DS, buffer16[0]);
             AX = buffer16[1];
             cycle-=7; //EA?
+            break;
+        case MOV_MEM16_IMM16:
+            buffer8[0] = Mem_GetByte(mem, CS, IP);
+            IP++;
+            mod = buffer8[0] >> 6;
+            reg = (buffer8[0] >> 3) & 0x7;
+            rm = buffer8[0] & 0x7;
+            buffer16[0] = Mem_GetWord(mem, CS, IP);
+            IP+=2;
+            buffer16[1] = Mem_GetWord(mem, CS, IP);
+            IP+=2;
+            Mem_PutWord(mem, DS, buffer16[0], buffer16[1]);
+            cycle-=9;
             break;
         case PUSH_AX:
             buffer16[0] = AX;

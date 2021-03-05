@@ -38,11 +38,12 @@ int main()
         0x00, 0x00,
         //header end
         //program 1
-        0xB8, 0x01, 0x20,   //mov ax, 0x2000
-        0x50,               //push ax
-        0x59,               //pop cx
-        0x05, 0xFF, 0x10,   //add ax, 0x10FF
-        0xA1, 0x00, 0xB8    //mov ax, [0xb800]
+        0xB8, 0x01, 0x20,                           //mov ax, 0x2000
+        0x50,                                       //push ax
+        0x59,                                       //pop cx
+        0x05, 0xFF, 0x10,                           //add ax, 0x10FF
+        0xC7, 0x06, 0x00, 0xB8, 0x40, 0x1F,         //mov word [0xb800], 0x8000
+        0xA1, 0x00, 0xB8                            //mov ax, [0xb800]
         //program 1 end
     };
 
@@ -50,7 +51,7 @@ int main()
     programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 35);
+    cpu.Execute(memory, 45);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);

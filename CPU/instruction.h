@@ -17,6 +17,7 @@ enum Instructions{
     ADD_AX_IMM16 = 0x05,    //4
     MOV_AX_IMM16 = 0xB8,    //3
     MOV_AX_RM16 = 0xA1,     //8+EA
+    MOV_MEM16_IMM16 = 0xC7, //10+EA
     PUSH_AX = 0x50,         //8
     POP_AX = 0x58,          //8
     POP_CX = 0x59,          //8
