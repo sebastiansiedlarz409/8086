@@ -20,6 +20,7 @@ enum Instructions{
     MOV_AX_RM16 = 0xA1,         //8+EA
     MOV_REG16_REG16 = 0x89,     //2
     MOV_MEM16_IMM16 = 0xC7,     //10+EA
+    MOV_REG16_MEM16 = 0x8B,     //8+EA
     PUSH_AX = 0x50,             //8
     POP_AX = 0x58,              //8
     POP_CX = 0x59,              //8
@@ -38,7 +39,7 @@ auto MOV_AX_IMM16_INS =
     cpu.AX = buffer16;
 };
 
-auto MOV_Si_IMM16_INS = 
+auto MOV_SI_IMM16_INS = 
 []
 (CPU& cpu, Memory& mem)
 {
@@ -95,6 +96,27 @@ auto MOV_AX_RM16_INS =
     cpu.IP+=2;
     buffer16_1 = cpu.Mem_GetWord(mem, cpu.DS, buffer16);
     cpu.AX = buffer16_1;
+};
+
+auto MOV_REG16_MEM16_INS =
+[]
+(CPU& cpu, Memory& mem)
+{
+    buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    cpu.IP++;
+
+    uint8_t mod = buffer8 >> 6;
+    uint16_t disp = 0;
+    if(mod == 1){
+        disp = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+        cpu.IP++;
+    }
+    else if(mod == 2){
+        disp = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+        cpu.IP+=2;
+    }
+
+    cpu.MoveIns16(mem, buffer8, disp, 1);
 };
 
 auto MOV_MEM16_IMM16_INS =
