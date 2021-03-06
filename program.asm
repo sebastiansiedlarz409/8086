@@ -1,3 +1,4 @@
 [bits 16]
 
-mov dx, ax
+mov [0xb800], ax
+mov word [0xb8], 0x8000

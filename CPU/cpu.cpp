@@ -122,8 +122,60 @@ uint16_t& CPU::GetReg16(uint8_t reg){
         return CX;
     else if(reg == 2)
         return DX;
-    else
+    else if(reg == 3)
         return BX;
+    else if(reg == 4)
+        return SP;
+    else if(reg == 5)
+        return BP;
+    else if(reg == 6)
+        return SI;
+    else
+        return DI;
+}
+
+void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
+    uint8_t mod = modrm >> 6;
+    uint8_t reg = (modrm & 0b00111000) >> 3;
+    uint8_t rm = modrm & 0b00000111;
+
+    if(type == 3){  //reg, reg
+        GetReg16(rm) = GetReg16(reg);
+    }
+
+    else if(type == 2){ //reg, mem
+        if(mod == 0){ //mem -> [reg]
+            if(reg <= 7) //[reg]
+                GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm));
+            else{ //[imm16]
+                GetReg16(reg) = Mem_GetWord(mem, DS, Mem_GetWord(mem, CS, IP));
+                IP+=2;
+            }
+        }
+        if(mod == 1){ //mem -> [reg+disp8]
+            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+        }
+        if(mod == 2){ //mem -> [reg+disp16]
+            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+        }
+    }
+
+    else if(type == 1) { //mem, reg
+        if(mod == 0){ //mem -> [reg]
+            if(reg != 0) //mem -> [reg]
+                Mem_PutWord(mem, DS, GetReg16(rm), GetReg16(reg));
+            else{ //mem -> [imm16]
+                Mem_PutWord(mem, DS, Mem_GetWord(mem, CS, IP), Mem_GetWord(mem, CS, IP+2));
+                IP+=4;
+            }
+        }
+        if(mod == 1){ //mem -> [reg+disp8]
+            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+        }
+        if(mod == 2){ //mem -> [reg+disp16]
+            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+        }
+    }
 }
 
 void CPU::Execute(Memory& mem, uint16_t cycle){
@@ -145,7 +197,6 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             cycle--;
             break;
         case MOV_MEM16_IMM16:
-            //TODO: ModRM
             MOV_MEM16_IMM16_INS(*this, mem);
             cycle-=9;
             break;

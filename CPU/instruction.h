@@ -92,18 +92,22 @@ auto MOV_AX_RM16_INS =
 auto MOV_MEM16_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
-{
-    //TODO: modrm  
+{ 
     buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
     cpu.IP++;
-    //mod = buffer8[0] >> 6;
-    //reg = (buffer8[0] >> 3) & 0x7;
-    //rm = buffer8[0] & 0x7;
-    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
-    cpu.IP+=2;
-    buffer16_1 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
-    cpu.IP+=2;
-    cpu.Mem_PutWord(mem, cpu.DS, buffer16, buffer16_1);
+
+    uint8_t mod = buffer8 >> 6;
+    uint16_t disp = 0;
+    if(mod == 1){
+        disp = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+        cpu.IP++;
+    }
+    else if(mod == 2){
+        disp = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+        cpu.IP+=2;
+    }
+    
+    cpu.MoveIns16(mem, buffer8, disp, 1);
 };
 
 auto MOV_REG16_REG16_INS =
@@ -112,5 +116,5 @@ auto MOV_REG16_REG16_INS =
 {
     buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
     cpu.IP++;
-    cpu.GetReg16(buffer8 & 0b00000111) = cpu.GetReg16((buffer8 & 0b00111000) >> 3);
+    cpu.MoveIns16(mem, buffer8, 0, 3); //3 means both operand are regs
 };

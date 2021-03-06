@@ -24,4 +24,5 @@ class CPU : public Registers
     uint8_t GetPF(uint16_t value);
     uint8_t GetAF(uint16_t value1, uint16_t value2);
     uint16_t& GetReg16(uint8_t reg);
+    void MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type);
 };
