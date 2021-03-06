@@ -15,6 +15,7 @@
 
 enum Instructions{
     ADD_AX_IMM16 = 0x05,        //4
+    ADD_REG16_IMM16 = 0x81,     //4
     MOV_AX_IMM16 = 0xB8,        //3
     MOV_SI_IMM16 = 0xBE,        //3
     MOV_AX_RM16 = 0xA1,         //8+EA
@@ -24,6 +25,9 @@ enum Instructions{
     PUSH_AX = 0x50,             //8
     POP_AX = 0x58,              //8
     POP_CX = 0x59,              //8
+    DEC_AX = 0x48,              //2
+    JZ = 0x74,                  //16
+    JNZ = 0x75,                 //16
 };
 
 uint16_t buffer16;
@@ -88,6 +92,26 @@ auto ADD_AX_IMM16_INS =
     );
 };
 
+auto ADD_REG16_IMM16_INS = 
+[]
+(CPU& cpu, Memory& mem)
+{
+    buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    cpu.IP++;
+    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    cpu.IP+=2;
+    buffer16_1 = cpu.GetReg16(buffer8 & 0b00000111);    //reg
+    cpu.GetReg16(buffer8 & 0b00000111) += buffer16;
+    cpu.SetFLAGS(
+        cpu.GetOF(buffer16, buffer16_1),
+        cpu.GetSF(buffer16_1),
+        cpu.GetCF(buffer16, buffer16_1),
+        cpu.GetAF(buffer16, buffer16_1),
+        cpu.GetPF(buffer16_1),
+        cpu.GetZF(buffer16_1)
+    );
+};
+
 auto MOV_AX_RM16_INS = 
 []
 (CPU& cpu, Memory& mem)
@@ -147,4 +171,43 @@ auto MOV_REG16_REG16_INS =
     buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
     cpu.IP++;
     cpu.MoveIns16(mem, buffer8, 0, 3); //3 means both operand are regs
+};
+
+auto DEC_AX_INS =
+[]
+(CPU& cpu, Memory& mem)
+{
+    cpu.AX--;
+    cpu.SetFLAGS(
+        cpu.GetOF(1, cpu.AX+1),
+        cpu.GetSF(cpu.AX),
+        cpu.CF,
+        cpu.GetAF(1, cpu.AX+1),
+        cpu.GetPF(cpu.AX),
+        cpu.GetZF(cpu.AX)
+    );
+};
+
+auto JZ_INS =
+[]
+(CPU& cpu, Memory& mem)
+{
+    if(cpu.ZF){
+        cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP) - 1);
+    }
+    else{
+        cpu.IP++; //skip rel8
+    }
+};
+
+auto JNZ_INS =
+[]
+(CPU& cpu, Memory& mem)
+{
+    if(!cpu.ZF){
+        cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP));
+    }
+    else{
+        cpu.IP++; //skip rel8
+    }
 };

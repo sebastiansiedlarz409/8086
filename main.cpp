@@ -49,6 +49,13 @@ int main()
         0xBE, 0xFF, 0xb7,                           //mov si, 0xb7ff            |3
         0x8B, 0x44, 0x01,                           //mov ax, [si+1]            |8
         0x89, 0xC7,                                 //mov di, ax                |2
+        0xB8, 0x0F, 0x00,                           //mov ax, 0x0F              |3
+        0xBE, 0x00, 0x00,                           //mov si, 0x00              |3
+        //loop
+        0x81, 0xC6, 0x00, 0x10,                     //add si, 0x1000            |4
+        0x48,                                       //dec                       |2
+        0x75, 0xF9                                  //jnz loop(5 bytes up)      |16
+        //end loop
         //program 1 end
     };
 
@@ -56,7 +63,7 @@ int main()
     programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 72);
+    cpu.Execute(memory, 100);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);

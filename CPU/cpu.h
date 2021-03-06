@@ -14,8 +14,8 @@ class CPU : public Registers
     void Mem_PutWord(Memory& mem, uint16_t segment, uint16_t address, uint16_t value);
     uint8_t Mem_GetByte(const Memory& mem, uint16_t segment, uint16_t address);
     uint16_t Mem_GetWord(const Memory& mem, uint16_t segment, uint16_t address);
-    uint8_t FetchInstruction(Memory& mem, uint16_t& cycle);
-    void Execute(Memory& mem, uint16_t cycle);
+    uint8_t FetchInstruction(Memory& mem, int16_t& cycle);
+    void Execute(Memory& mem, int16_t cycle);
     void SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z);
     uint8_t GetOF(uint16_t value1, uint16_t value2);
     uint8_t GetSF(uint16_t value);

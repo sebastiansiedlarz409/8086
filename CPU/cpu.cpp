@@ -53,7 +53,7 @@ uint16_t CPU::Pop(Memory& mem){
     return value;
 }
 
-uint8_t CPU::FetchInstruction(Memory& mem, uint16_t& cycle){
+uint8_t CPU::FetchInstruction(Memory& mem, int16_t& cycle){
     uint8_t value = Mem_GetByte(mem, CS, IP);
     cycle--;
     IP++;
@@ -178,7 +178,7 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
     }
 }
 
-void CPU::Execute(Memory& mem, uint16_t cycle){
+void CPU::Execute(Memory& mem, int16_t cycle){
     while(cycle > 0){
         uint8_t ins = FetchInstruction(mem, cycle);
 
@@ -224,8 +224,25 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             ADD_AX_IMM16_INS(*this, mem);
             cycle-=3;
             break;
+        case ADD_REG16_IMM16:
+            ADD_REG16_IMM16_INS(*this, mem);
+            cycle-=4;
+            break;
+        case DEC_AX:
+            DEC_AX_INS(*this, mem);
+            cycle-=2;
+            break;
+        case JZ:
+            JZ_INS(*this, mem);
+            cycle-=16;
+            break;
+        case JNZ:
+            JNZ_INS(*this, mem);
+            cycle-=16;
+            break;
         default:
             cycle--;
+            IP--;       //no move forward
             break;
         }
     }    

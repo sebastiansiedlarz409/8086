@@ -1,5 +1,7 @@
 [bits 16]
 
-mov si, 0xb7ff
-mov ax, [si+1]
-mov di, ax
+add di, 0x1000
+
+lp:
+sub ax, 5
+jz lp
