@@ -38,12 +38,14 @@ int main()
         0x00, 0x00,
         //header end
         //program 1
-        0xB8, 0x01, 0x20,                           //mov ax, 0x2000
+        0xB8, 0x01, 0x20,                           //mov ax, 0x2001
         0x50,                                       //push ax
         0x59,                                       //pop cx
         0x05, 0xFF, 0x10,                           //add ax, 0x10FF
-        0xC7, 0x06, 0x00, 0xB8, 0x40, 0x1F,         //mov word [0xb800], 0x8000
-        0xA1, 0x00, 0xB8                            //mov ax, [0xb800]
+        0x89, 0xC3,                                 //mov bx, ax                                 
+        0xC7, 0x06, 0x00, 0xB8, 0x00, 0x40,         //mov word [0xb800], 0x4000
+        0xA1, 0x00, 0xB8,                           //mov ax, [0xb800]
+        0x89, 0xC2,                                 //mov dx, ax
         //program 1 end
     };
 
@@ -51,14 +53,14 @@ int main()
     programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 45);
+    cpu.Execute(memory, 49);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);
     debugger.Eflags(cpu, memory);
     debugger.ShowSegment(cpu, memory, cpu.CS, 0x0, 256);
     debugger.ShowStack(cpu, memory, 2);
-
+    debugger.ShowSegment(cpu, memory, cpu.DS, 0xb800, 4);
     printf("Done\n\r");
     return 0;
 }

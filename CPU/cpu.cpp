@@ -115,73 +115,54 @@ void CPU::SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_
     ZF = z;
 }
 
+uint16_t& CPU::GetReg16(uint8_t reg){
+    if(reg == 0)
+        return AX;
+    else if(reg == 1)
+        return CX;
+    else if(reg == 2)
+        return DX;
+    else
+        return BX;
+}
+
 void CPU::Execute(Memory& mem, uint16_t cycle){
-    uint16_t buffer16[4];
-    uint8_t buffer8[4];
-
-    uint8_t mod;
-    uint8_t rm;
-    uint8_t reg;
-
     while(cycle > 0){
         uint8_t ins = FetchInstruction(mem, cycle);
 
         switch (ins)
         {
         case MOV_AX_IMM16:
-            buffer16[0] = Mem_GetWord(mem, CS, IP);
-            IP+=2;
-            cycle-=2;
-            AX = buffer16[0];
-            cycle--;
+            MOV_AX_IMM16_INS(*this, mem);
+            cycle-=3;
             break;
         case MOV_AX_RM16:
-            buffer16[0] = Mem_GetWord(mem, CS, IP); //addr
-            IP+=2;
-            buffer16[1] = Mem_GetWord(mem, DS, buffer16[0]);
-            AX = buffer16[1];
+            MOV_AX_RM16_INS(*this, mem);
             cycle-=7; //EA?
             break;
+        case MOV_REG16_REG16:
+            MOV_REG16_REG16_INS(*this, mem);
+            cycle--;
+            break;
         case MOV_MEM16_IMM16:
-            buffer8[0] = Mem_GetByte(mem, CS, IP);
-            IP++;
-            mod = buffer8[0] >> 6;
-            reg = (buffer8[0] >> 3) & 0x7;
-            rm = buffer8[0] & 0x7;
-            buffer16[0] = Mem_GetWord(mem, CS, IP);
-            IP+=2;
-            buffer16[1] = Mem_GetWord(mem, CS, IP);
-            IP+=2;
-            Mem_PutWord(mem, DS, buffer16[0], buffer16[1]);
+            //TODO: ModRM
+            MOV_MEM16_IMM16_INS(*this, mem);
             cycle-=9;
             break;
         case PUSH_AX:
-            buffer16[0] = AX;
-            cycle-=5;
-            Push(mem, buffer16[0]);
-            cycle-=5;
+            PUSH_AX_INS(*this, mem);
+            cycle-=10;
             break;
         case POP_AX:
-            AX = Pop(mem);
+            POP_AX_INS(*this, mem);
             cycle-=7;
             break;
         case POP_CX:
-            CX = Pop(mem);
+            POP_CX_INS(*this, mem);
             cycle-=7;
             break;
         case ADD_AX_IMM16:
-            buffer16[0] = Mem_GetWord(mem, CS, IP);
-            IP+=2;
-            buffer16[1] = AX;
-            AX += buffer16[0];
-            SetFLAGS(
-                GetOF(buffer16[0], buffer16[1]),
-                GetSF(AX),
-                GetCF(buffer16[0], buffer16[1]),
-                GetAF(buffer16[0], buffer16[1]),
-                GetPF(AX),
-                GetZF(AX)
-            );
+            ADD_AX_IMM16_INS(*this, mem);
             cycle-=3;
             break;
         default:

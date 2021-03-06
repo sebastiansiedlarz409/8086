@@ -23,4 +23,5 @@ class CPU : public Registers
     uint8_t GetZF(uint16_t value);
     uint8_t GetPF(uint16_t value);
     uint8_t GetAF(uint16_t value1, uint16_t value2);
+    uint16_t& GetReg16(uint8_t reg);
 };

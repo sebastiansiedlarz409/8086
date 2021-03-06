@@ -65,7 +65,7 @@ void Debugger::ShowSegment(CPU& cpu, Memory& mem, uint16_t seg, uint16_t offset,
     for(uint16_t i = 0;i<size;i++){
         uint8_t value = cpu.Mem_GetByte(mem, seg, offset+i);
         if(i%32 == 0){
-            printf("\n\r0x%x:\t",cpu.CalculateAddress(seg, offset+i));
+            printf("\n\r0x%x: \t",cpu.CalculateAddress(seg, offset+i));
         }
         if(value < 0x10){
             printf("0%x ", value);
@@ -91,6 +91,4 @@ void Debugger::ShowStack(CPU& cpu, Memory& mem, uint16_t size){
         
         sp+=2;
     }
-
-    printf("\n\r");
 }
