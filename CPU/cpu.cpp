@@ -188,6 +188,10 @@ void CPU::Execute(Memory& mem, uint16_t cycle){
             MOV_AX_IMM16_INS(*this, mem);
             cycle-=3;
             break;
+        case MOV_SI_IMM16:
+            MOV_Si_IMM16_INS(*this, mem);
+            cycle-=3;
+            break;
         case MOV_AX_RM16:
             MOV_AX_RM16_INS(*this, mem);
             cycle-=7; //EA?

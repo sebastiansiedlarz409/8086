@@ -46,6 +46,7 @@ int main()
         0xC7, 0x06, 0x00, 0xB8, 0x00, 0x40,         //mov word [0xb800], 0x4000
         0xA1, 0x00, 0xB8,                           //mov ax, [0xb800]
         0x89, 0xC2,                                 //mov dx, ax
+        0xBE, 0xFF, 0x37,                           //mov si, 0x37ff
         //program 1 end
     };
 
@@ -53,7 +54,7 @@ int main()
     programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 49);
+    cpu.Execute(memory, 52);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);

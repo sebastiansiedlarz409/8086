@@ -16,6 +16,7 @@
 enum Instructions{
     ADD_AX_IMM16 = 0x05,        //4
     MOV_AX_IMM16 = 0xB8,        //3
+    MOV_SI_IMM16 = 0xBE,        //3
     MOV_AX_RM16 = 0xA1,         //8+EA
     MOV_REG16_REG16 = 0x89,     //2
     MOV_MEM16_IMM16 = 0xC7,     //10+EA
@@ -32,17 +33,24 @@ auto MOV_AX_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    
     buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
     cpu.IP+=2;
     cpu.AX = buffer16;
+};
+
+auto MOV_Si_IMM16_INS = 
+[]
+(CPU& cpu, Memory& mem)
+{
+    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    cpu.IP+=2;
+    cpu.SI = buffer16;
 };
 
 auto PUSH_AX_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    
     buffer16 = cpu.AX;
     cpu.Push(mem, buffer16);
 };
