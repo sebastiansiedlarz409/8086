@@ -1,9 +1,12 @@
 #include <vector>
+#include <cstdio>
 
 #include "..\CPU\cpu.h"
 #include "programmer.h"
 
 void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
+
+    cpu.Reset(mem);
 
     uint16_t ss = (byte_code[15]<<8)|byte_code[14];
     uint16_t sp = (byte_code[17]<<8)|byte_code[16];
@@ -12,9 +15,12 @@ void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
     uint16_t cs = (byte_code[23]<<8)|byte_code[22];
 
     cpu.SS = ss;
+    printf("Set SS: 0x%x\r\n", cpu.SS);
     cpu.SP = sp;
+    printf("Set SP: 0x%x\r\n", cpu.SP);
 
     cpu.CS = cs;
+    printf("Set CS: 0x%x\r\n", cpu.CS);
 
     uint16_t code_p = 0;
     for(uint32_t i = 30; i < byte_code.size(); i++){
@@ -23,6 +29,4 @@ void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
     }
 
     cpu.Mem_PutWord(mem, 0xFFFF, 0, ip);     //reset vector
-
-    cpu.Reset(mem);
 }

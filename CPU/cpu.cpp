@@ -4,13 +4,14 @@
 
 void CPU::Reset(Memory& mem){
     //default segments
-    DS = ES = SS = 0;
+    DS = ES = SS = 0x3000;
 
     AX = BX = CX = DX = 0;
 
     IP = Mem_GetWord(mem, 0xFFFF, 0);
 
-    BP = SP;
+    BP = 0;
+    SP = 0;
 
     DI = SI = 0;
 

@@ -63,7 +63,7 @@ int main()
     programmer.Program(cpu, memory, program);
     printf("Programmed\n\r");
 
-    cpu.Execute(memory, 100);
+    cpu.Execute(memory, INT16_MAX);
 
     Debugger debugger;
     debugger.Registers(cpu, memory);

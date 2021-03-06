@@ -82,12 +82,12 @@ void Debugger::ShowStack(CPU& cpu, Memory& mem, uint16_t size){
     printf("\n\rSTACK:\n\r");
     uint16_t sp = cpu.SP;
     for(uint16_t i = 0;i<size;i++){
-        if(sp>=cpu.SS+0xFFFF){
+        if(sp>=0xFFFF){
             break;
         }
         
         uint16_t value = cpu.Mem_GetWord(mem, cpu.SS, sp);
-        printf("0x%x:0x%x: \t0x%x\n\r", cpu.SP, sp, value);
+        printf("0x%x:0x%x \t0x%x\n\r", cpu.CalculateAddress(cpu.SS, sp), cpu.CalculateAddress(cpu.SS, sp+2), value);
         
         sp+=2;
     }
