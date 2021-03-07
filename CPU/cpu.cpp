@@ -57,7 +57,8 @@ uint16_t CPU::Pop(Memory& mem){
 }
 
 void CPU::FetchInstruction(Memory& mem, int16_t& cycle){
-    if(code_size<fetch_ip-6){
+    if(code_size<IP){
+        //IP--;
         cur_instruction = -1;
         return;
     }
@@ -81,18 +82,6 @@ void CPU::FetchInstruction(Memory& mem, int16_t& cycle){
             }
         }
     }
-
-    std::queue<uint8_t> temp_buffer = fetch_buffer;
-    for(uint8_t i = 0; i < temp_buffer.size(); i++){
-        if(i%6==0)
-            printf("%02x : ", cur_instruction);
-        printf("%02x ", temp_buffer.front());
-        temp_buffer.push(temp_buffer.front());
-        temp_buffer.pop();
-    }
-
-    printf("\r\n");
-    printf("IP: %04x\r\n", IP);
     cycle--;
 }
 
