@@ -16,8 +16,6 @@ int main()
     Memory memory;
     CPU cpu;
     cpu.Reset(memory);
-    
-    printf("Created\r\n");
 
     std::vector<uint8_t> program = {
         //header start
@@ -62,7 +60,6 @@ int main()
 
     Programmer programmer;
     programmer.Program(cpu, memory, program);
-    printf("Programmed\n\r");
 
     cpu.Execute(memory, INT16_MAX);
 
@@ -72,6 +69,6 @@ int main()
     debugger.ShowSegment(cpu, memory, cpu.CS, 0x0, 256);
     debugger.ShowStack(cpu, memory, 2);
     debugger.ShowSegment(cpu, memory, cpu.DS, 0xb800, 4);
-    printf("Done\n\r");
+    
     return 0;
 }
