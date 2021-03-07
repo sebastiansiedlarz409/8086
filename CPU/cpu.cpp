@@ -54,11 +54,10 @@ uint16_t CPU::Pop(Memory& mem){
     return value;
 }
 
-uint8_t CPU::FetchInstruction(Memory& mem, int16_t& cycle){
-    uint8_t value = Mem_GetByte(mem, CS, IP);
+void CPU::FetchInstruction(Memory& mem, int16_t& cycle){
+    cur_instruction = Mem_GetByte(mem, CS, IP);
     cycle--;
     IP++;
-    return value;
 }
 
 uint8_t CPU::GetOF(uint16_t value1, uint16_t value2){
@@ -181,9 +180,9 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
 
 void CPU::Execute(Memory& mem, int16_t cycle){
     while(cycle > 0){
-        uint8_t ins = FetchInstruction(mem, cycle);
+        FetchInstruction(mem, cycle);
 
-        switch (ins)
+        switch (cur_instruction)
         {
         case MOV_AX_IMM16:
             MOV_AX_IMM16_INS(*this, mem);
