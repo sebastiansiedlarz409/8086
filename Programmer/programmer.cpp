@@ -1,5 +1,6 @@
 #include <vector>
 #include <cstdio>
+#include <unistd.h>
 
 #include "..\CPU\cpu.h"
 #include "programmer.h"
@@ -27,6 +28,7 @@ void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
         printf("\rPrograming: 0x%08x", cpu.CalculateAddress(cpu.CS, code_p));
         cpu.Mem_PutByte(mem, cs, code_p, byte_code[i]);
         code_p++;
+        usleep(100*1000);
     }
 
     cpu.Mem_PutWord(mem, 0xFFFF, 0, ip);     //reset vector
