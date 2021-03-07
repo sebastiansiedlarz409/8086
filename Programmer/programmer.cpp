@@ -15,12 +15,12 @@ void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
     uint16_t cs = (byte_code[23]<<8)|byte_code[22];
 
     cpu.SS = ss;
-    printf("Set SS: 0x%x\r\n", cpu.SS);
+    printf("Set SS: 0x%04x\r\n", cpu.SS);
     cpu.SP = sp;
-    printf("Set SP: 0x%x\r\n", cpu.SP);
+    printf("Set SP: 0x%04x\r\n", cpu.SP);
 
     cpu.CS = cs;
-    printf("Set CS: 0x%x\r\n", cpu.CS);
+    printf("Set CS: 0x%04x\r\n", cpu.CS);
 
     uint16_t code_p = 0;
     for(uint32_t i = 30; i < byte_code.size(); i++){
