@@ -211,6 +211,7 @@ auto JZ_INS =
     if(cpu.ZF){
         //cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP) - 1);
         cpu.IP -= (255 - cpu.GetFetchedByte() - 1);
+        cpu.ClearFetchedBuffer();
     }
     else{
         cpu.IP++; //skip rel8
@@ -223,7 +224,8 @@ auto JNZ_INS =
 {
     if(!cpu.ZF){
         //cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP));
-        cpu.IP -= (255 - cpu.GetFetchedByte() - 1);
+        cpu.IP -= (255 - cpu.GetFetchedByte());
+        cpu.ClearFetchedBuffer();
     }
     else{
         cpu.IP++; //skip rel8

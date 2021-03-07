@@ -10,6 +10,7 @@ class CPU : public Registers
     int16_t cur_instruction = 0;
     std::queue<uint8_t> fetch_buffer;
     uint16_t fetch_ip = 0;
+    uint16_t last_ip = 0;
 
     public:
     uint16_t code_size = 0;
@@ -25,6 +26,7 @@ class CPU : public Registers
     void FetchInstruction(Memory& mem, int16_t& cycle);
     uint8_t GetFetchedByte();
     uint16_t GetFetchedWord();
+    void ClearFetchedBuffer();
     void Execute(Memory& mem, int16_t cycle);
     void SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z);
     uint8_t GetOF(uint16_t value1, uint16_t value2);
