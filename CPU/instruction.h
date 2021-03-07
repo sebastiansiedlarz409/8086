@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdio>
+
 //EA
 //Displacement                                            6
 //Base or Index (BX,BP,SI,DI)                             5
@@ -38,7 +40,8 @@ auto MOV_AX_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    //buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
     cpu.AX = buffer16;
 };
@@ -47,7 +50,8 @@ auto MOV_SI_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    //buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
     cpu.SI = buffer16;
 };
@@ -78,7 +82,8 @@ auto ADD_AX_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    //buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
     buffer16_1 = cpu.AX;
     cpu.AX += buffer16;
@@ -96,9 +101,11 @@ auto ADD_REG16_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    //buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    buffer8 = cpu.GetFetchedByte();
     cpu.IP++;
-    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    //buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+    buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
     buffer16_1 = cpu.GetReg16(buffer8 & 0b00000111);    //reg
     cpu.GetReg16(buffer8 & 0b00000111) += buffer16;
@@ -116,7 +123,8 @@ auto MOV_AX_RM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP); //addr
+    //buffer16 = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP); //addr
+    buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
     buffer16_1 = cpu.Mem_GetWord(mem, cpu.DS, buffer16);
     cpu.AX = buffer16_1;
@@ -126,17 +134,20 @@ auto MOV_REG16_MEM16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    //buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    buffer8 = cpu.GetFetchedByte();
     cpu.IP++;
 
     uint8_t mod = buffer8 >> 6;
     uint16_t disp = 0;
     if(mod == 1){
-        disp = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+        //disp = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+        disp = cpu.GetFetchedByte();
         cpu.IP++;
     }
     else if(mod == 2){
-        disp = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+        //disp = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+        disp = cpu.GetFetchedWord();
         cpu.IP+=2;
     }
 
@@ -147,17 +158,20 @@ auto MOV_MEM16_IMM16_INS =
 []
 (CPU& cpu, Memory& mem)
 { 
-    buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    //buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    buffer8 = cpu.GetFetchedByte();
     cpu.IP++;
 
     uint8_t mod = buffer8 >> 6;
     uint16_t disp = 0;
     if(mod == 1){
-        disp = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+        //disp = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+        disp = cpu.GetFetchedByte();
         cpu.IP++;
     }
     else if(mod == 2){
-        disp = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+        //disp = cpu.Mem_GetWord(mem, cpu.CS, cpu.IP);
+        disp = cpu.GetFetchedWord();
         cpu.IP+=2;
     }
     
@@ -168,8 +182,10 @@ auto MOV_REG16_REG16_INS =
 []
 (CPU& cpu, Memory& mem)
 {
-    buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    //buffer8 = cpu.Mem_GetByte(mem, cpu.CS, cpu.IP);
+    buffer8 = cpu.GetFetchedByte();
     cpu.IP++;
+    
     cpu.MoveIns16(mem, buffer8, 0, 3); //3 means both operand are regs
 };
 
@@ -193,7 +209,8 @@ auto JZ_INS =
 (CPU& cpu, Memory& mem)
 {
     if(cpu.ZF){
-        cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP) - 1);
+        //cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP) - 1);
+        cpu.IP -= (255 - cpu.GetFetchedByte() - 1);
     }
     else{
         cpu.IP++; //skip rel8
@@ -205,7 +222,8 @@ auto JNZ_INS =
 (CPU& cpu, Memory& mem)
 {
     if(!cpu.ZF){
-        cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP));
+        //cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP));
+        cpu.IP -= (255 - cpu.GetFetchedByte() - 1);
     }
     else{
         cpu.IP++; //skip rel8

@@ -28,8 +28,10 @@ void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
         printf("\rPrograming: 0x%08x", cpu.CalculateAddress(cpu.CS, code_p));
         cpu.Mem_PutByte(mem, cs, code_p, byte_code[i]);
         code_p++;
-        usleep(100*1000);
+        //usleep(100*1000);
     }
+
+    cpu.code_size = code_p;
 
     cpu.Mem_PutWord(mem, 0xFFFF, 0, ip);     //reset vector
     printf("\n\rProgrammed %llu bytes\n\r", byte_code.size()-30);
