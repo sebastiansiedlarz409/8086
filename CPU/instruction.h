@@ -210,7 +210,13 @@ auto JZ_INS =
 {
     if(cpu.ZF){
         //cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP) - 1);
-        cpu.IP -= (255 - cpu.GetFetchedByte() - 1);
+        uint8_t offset = cpu.GetFetchedByte();
+        if(offset > 127){
+            cpu.IP -= (255 - offset);
+        }
+        else{
+            cpu.IP += offset+1;
+        }
         cpu.ClearFetchedBuffer();
     }
     else{
@@ -224,7 +230,13 @@ auto JNZ_INS =
 {
     if(!cpu.ZF){
         //cpu.IP -= (255 - cpu.Mem_GetByte(mem, cpu.CS, cpu.IP));
-        cpu.IP -= (255 - cpu.GetFetchedByte());
+        uint8_t offset = cpu.GetFetchedByte();
+        if(offset > 127){
+            cpu.IP -= (255 - offset);
+        }
+        else{
+            cpu.IP += offset+1;
+        }
         cpu.ClearFetchedBuffer();
     }
     else{

@@ -49,12 +49,12 @@ int main()
         0x89, 0xC7,                                 //mov di, ax                |2
         0xB8, 0x0F, 0x00,                           //mov ax, 0x0F              |3
         0xBE, 0x00, 0x00,                           //mov si, 0x00              |3
-        //loop
         0x81, 0xC6, 0x00, 0x10,                     //add si, 0x1000            |4
         0x48,                                       //dec                       |2
-        0x75, 0xF9,                                 //jnz loop(5 bytes up)      |16
-        //end loop
+        0x75, 0xF9,                                 //jnz loop(6 bytes up)      |16
         0xB8, 0x00, 0x04,                           //mov ax, 0x400             |3
+        0x74, 0x03,                                 //jz +3                     |16
+        0xB8, 0x00, 0x02,                           //mov ax, 0x200             |3
         //program 1 end
     };
 
