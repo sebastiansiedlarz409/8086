@@ -2,10 +2,7 @@
 #include "instruction.h"
 #include "..\Memory\memory.h"
 
-#include <cstdio>
-
 void CPU::Reset(Memory& mem){
-    //default segments
     DS = ES = SS = 0x3000;
 
     AX = BX = CX = DX = 0;
@@ -17,7 +14,6 @@ void CPU::Reset(Memory& mem){
 
     DI = SI = 0;
 
-    //flags
     TF = DF = IF = OF = 0;
     SF = ZF = AF = PF = CF = 0;
 }
@@ -58,7 +54,6 @@ uint16_t CPU::Pop(Memory& mem){
 
 void CPU::FetchInstruction(Memory& mem, int16_t& cycle){
     if(code_size<IP){
-        //IP--;
         cur_instruction = -1;
         return;
     }
@@ -105,12 +100,10 @@ uint16_t CPU::GetFetchedWord(){
 }
 
 uint8_t CPU::GetOF(uint16_t value1, uint16_t value2){
-    if(value1&0x8000 && value2&0x8000 && (AX&0x8000) == 0){
+    if(value1&0x8000 && value2&0x8000 && (AX&0x8000) == 0)
         return 1;
-    }
-    if((value1&0x8000) == 0 && (value2&0x8000) == 0 && AX&0x8000){
+    if((value1&0x8000) == 0 && (value2&0x8000) == 0 && AX&0x8000)
         return 1;
-    }
 
     return 0;
 }
@@ -135,19 +128,11 @@ uint8_t CPU::GetPF(uint16_t value){
             counter++;
     }
 
-    if(counter % 2){
-        return 0;
-    }
-    else{
-        return 1;
-    }
+    return !(counter % 2);
 }
 
 uint8_t CPU::GetAF(uint16_t value1, uint16_t value2){
-    if((value1 & 0xF) + (value2 & 0xF) > 0xF){
-        return 1;
-    }
-    return 0;
+    return (value1 & 0xF) + (value2 & 0xF) > 0xF;
 }
 
 void CPU::SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z){
@@ -182,8 +167,6 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
     uint8_t mod = modrm >> 6;
     uint8_t reg = (modrm & 0b00111000) >> 3;
     uint8_t rm = modrm & 0b00000111;
-    
-    //GetFetchedByte();
 
     if(type == 3){  //reg, reg
         GetReg16(rm) = GetReg16(reg);
@@ -194,7 +177,6 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             if(reg <= 7) //[reg]
                 GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm));
             else{ //[imm16]
-                //GetReg16(reg) = Mem_GetWord(mem, DS, Mem_GetWord(mem, CS, IP));
                 GetReg16(reg) = Mem_GetWord(mem, DS, GetFetchedWord());
                 IP+=2;
             }
@@ -212,13 +194,11 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             if(reg != 0) //mem -> [reg]
                 Mem_PutWord(mem, DS, GetReg16(rm), GetReg16(reg));
             else{ //mem -> [imm16]
-                //Mem_PutWord(mem, DS, Mem_GetWord(mem, CS, IP), Mem_GetWord(mem, CS, IP+2));
                 uint16_t offset = GetFetchedWord();
                 IP+=2;
                 uint16_t value = GetFetchedWord();
                 Mem_PutWord(mem, DS, offset, value);
                 IP+=2;
-                //IP+=4;
             }
         }
         if(mod == 1){ //mem -> [reg+disp8]
@@ -234,8 +214,7 @@ void CPU::Execute(Memory& mem, int16_t cycle){
     while(cycle > 0){
         FetchInstruction(mem, cycle);
 
-        switch (cur_instruction)
-        {
+        switch (cur_instruction){
         case MOV_AX_IMM16:
             MOV_AX_IMM16_INS(*this, mem);
             cycle-=3;
