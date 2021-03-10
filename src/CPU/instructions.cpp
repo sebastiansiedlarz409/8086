@@ -126,6 +126,18 @@ void DEC_AX_INS(CPU& cpu, Memory& mem){
     );
 }
 
+void INC_AX_INS(CPU& cpu, Memory& mem){
+    cpu.AX++;
+    cpu.SetFLAGS(
+        cpu.GetOF(1, cpu.AX-1),
+        cpu.GetSF(cpu.AX),
+        cpu.CF,
+        cpu.GetAF(1, cpu.AX-1),
+        cpu.GetPF(cpu.AX),
+        cpu.GetZF(cpu.AX)
+    );
+}
+
 void JZ_INS(CPU& cpu, Memory& mem){
     if(cpu.ZF){
         uint8_t offset = cpu.GetFetchedByte();

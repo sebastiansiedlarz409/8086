@@ -263,6 +263,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             DEC_AX_INS(*this, mem);
             cycle-=2;
             break;
+        case INC_AX:
+            INC_AX_INS(*this, mem);
+            cycle-=2;
+            break;
         case JZ:
             JZ_INS(*this, mem);
             cycle-=16;
