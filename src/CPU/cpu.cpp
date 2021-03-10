@@ -275,6 +275,9 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             JNZ_INS(*this, mem);
             cycle-=16;
             break;
+        case NOP:
+            cycle--;
+            break;
         default:
             cycle--;
             IP--;       //no move forward

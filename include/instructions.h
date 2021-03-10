@@ -32,6 +32,7 @@ enum Instructions{
     INC_AX = 0x40,              //2
     JZ = 0x74,                  //16
     JNZ = 0x75,                 //16
+    NOP = 0x90,                 //1
 };
 
 void MOV_AX_IMM16_INS(CPU& cpu, Memory& mem);
