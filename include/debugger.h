@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\CPU\cpu.h"
-#include "..\Memory\memory.h"
+#include "cpu.h"
+#include "memory.h"
 
 class Debugger{
     public:

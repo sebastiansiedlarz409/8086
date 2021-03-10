@@ -1,10 +1,10 @@
 #include <cstdio>
 #include <vector>
 
-#include "CPU\cpu.h"
-#include "Debugger\debugger.h"
-#include "Memory\memory.h"
-#include "Programmer\programmer.h"
+#include "include\cpu.h"
+#include "include\debugger.h"
+#include "include\memory.h"
+#include "include\programmer.h"
 
 //https://edge.edx.org/c4x/BITSPilani/EEE231/asset/8086_family_Users_Manual_1_.pdf
 //https://wiki.osdev.org/MZ
@@ -35,7 +35,7 @@ int main()
         0x00, 0x00,
         0x00, 0x00,
         //header end
-        //program 1
+        //program
         0xB8, 0x01, 0x20,                           //mov ax, 0x2001            |3
         0x50,                                       //push ax                   |8
         0x59,                                       //pop cx                    |8
@@ -55,7 +55,7 @@ int main()
         0xB8, 0x00, 0x04,                           //mov ax, 0x400             |3
         0x74, 0x03,                                 //jz +3                     |16
         0xB8, 0x00, 0x02,                           //mov ax, 0x200             |3
-        //program 1 end
+        //program end
     };
 
     Programmer programmer;

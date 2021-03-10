@@ -1,6 +1,6 @@
-#include "cpu.h"
-#include "instruction.h"
-#include "..\Memory\memory.h"
+#include "..\..\include\cpu.h"
+#include "..\..\include\instructions.h"
+#include "..\..\include\memory.h"
 
 void CPU::Reset(Memory& mem){
     DS = ES = SS = 0x3000;

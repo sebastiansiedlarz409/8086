@@ -1,6 +1,4 @@
-#include "memory.h"
-
-#include <assert.h>
+#include "..\..\include\memory.h"
 
 Memory::Memory(){
     for(uint32_t i = 0;i < MemorySize;i++){

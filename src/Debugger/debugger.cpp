@@ -1,6 +1,6 @@
-#include "debugger.h"
-#include "..\Cpu\cpu.h"
-#include "..\Memory\memory.h"
+#include "..\..\include\cpu.h"
+#include "..\..\include\debugger.h"
+#include "..\..\include\memory.h"
 
 #include <stdio.h>
 

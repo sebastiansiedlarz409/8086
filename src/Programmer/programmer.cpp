@@ -2,8 +2,9 @@
 #include <cstdio>
 #include <unistd.h>
 
-#include "..\CPU\cpu.h"
-#include "programmer.h"
+#include "..\..\include\cpu.h"
+#include "..\..\include\memory.h"
+#include "..\..\include\programmer.h"
 
 void Programmer::Program(CPU& cpu, Memory& mem, std::vector<uint8_t> byte_code){
 

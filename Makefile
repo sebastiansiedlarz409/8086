@@ -1,21 +1,18 @@
-build32:
-	@echo Building...
-	g++32 -c -Wall -std=c++17 main.cpp -o main.o
-	g++32 -c -Wall -std=c++17  cpu\cpu.cpp -o cpu\cpu.o
-	g++32 -c -Wall -std=c++17  memory\memory.cpp -o memory\memory.o
-	g++32 -c -Wall -std=c++17  programmer\programmer.cpp -o programmer\programmer.o
-	g++32 -c -Wall -std=c++17  debugger\debugger.cpp -o debugger\debugger.o
-	@echo Linking...
-	g++32 -std=c++17  main.o cpu\cpu.o memory\memory.o programmer\programmer.o debugger\debugger.o -o 8086.exe
-	@echo Done
+CC = g++
+CFLAGS = -c -Wall -std=c++17
+LFLAGS = -std=c++17
+TARGET = 8086.exe
+SRC_DIR = src
+OBJ_DIR = obj
 
-build64:
+build:
 	@echo Building...
-	g++ -c -Wall -std=c++17  main.cpp -o main.o
-	g++ -c -Wall -std=c++17  cpu\cpu.cpp -o cpu\cpu.o
-	g++ -c -Wall -std=c++17  memory\memory.cpp -o memory\memory.o
-	g++ -c -Wall -std=c++17  programmer\programmer.cpp -o programmer\programmer.o
-	g++ -c -Wall -std=c++17  debugger\debugger.cpp -o debugger\debugger.o
+	${CC} ${CFLAGS}  main.cpp -o ${OBJ_DIR}\main.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\cpu\cpu.cpp -o ${OBJ_DIR}\cpu.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\memory\memory.cpp -o ${OBJ_DIR}\memory.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\cpu\instructions.cpp -o ${OBJ_DIR}\instructions.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\programmer\programmer.cpp -o ${OBJ_DIR}\programmer.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\debugger\debugger.cpp -o ${OBJ_DIR}\debugger.o
 	@echo Linking...
-	g++ -std=c++17  main.o cpu\cpu.o memory\memory.o programmer\programmer.o debugger\debugger.o -o 8086.exe
+	${CC} ${LFLAGS} ${OBJ_DIR}\main.o ${OBJ_DIR}\cpu.o ${OBJ_DIR}\memory.o ${OBJ_DIR}\programmer.o ${OBJ_DIR}\debugger.o ${OBJ_DIR}\instructions.o -o ${TARGET}
 	@echo Done

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Memory\memory.h"
+#include "memory.h"
 #include "register.h"
 
 #include <queue>
