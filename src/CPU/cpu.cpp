@@ -215,6 +215,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
         FetchInstruction(mem, cycle);
 
         switch (cur_instruction){
+        case MOV_AL_IMM8:
+            MOV_AL_IMM8_INS(*this, mem);
+            cycle-=3;
+            break;
         case MOV_AX_IMM16:
             MOV_AX_IMM16_INS(*this, mem);
             cycle-=3;

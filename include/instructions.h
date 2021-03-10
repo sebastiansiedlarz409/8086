@@ -19,6 +19,7 @@
 enum Instructions{
     ADD_AX_IMM16 = 0x05,        //4
     ADD_REG16_IMM16 = 0x81,     //4
+    MOV_AL_IMM8 = 0xB0,         //3
     MOV_AX_IMM16 = 0xB8,        //3
     MOV_SI_IMM16 = 0xBE,        //3
     MOV_AX_RM16 = 0xA1,         //8+EA
@@ -35,6 +36,7 @@ enum Instructions{
     NOP = 0x90,                 //1
 };
 
+void MOV_AL_IMM8_INS(CPU& cpu, Memory& mem);
 void MOV_AX_IMM16_INS(CPU& cpu, Memory& mem);
 void MOV_SI_IMM16_INS(CPU& cpu, Memory& mem);
 void PUSH_AX_INS(CPU& cpu, Memory& mem);

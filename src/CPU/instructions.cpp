@@ -6,6 +6,12 @@ uint16_t buffer16;
 uint16_t buffer16_1;
 uint8_t buffer8;
 
+void MOV_AL_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.AL = buffer8;
+}
+
 void MOV_AX_IMM16_INS(CPU& cpu, Memory& mem){
     buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
