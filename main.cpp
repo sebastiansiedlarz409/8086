@@ -59,6 +59,7 @@ int main()
         0x40,                                       //inc ax                    |2
         0x90,                                       //nop                       |1
         0xB0, 0xEE,                                 //mov al, 0xEE              |3
+        0xA0, 0x00, 0xb8,                           //mov al, [0xb800]          |3
         //program end
     };
 

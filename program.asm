@@ -1,3 +1,3 @@
 [bits 16]
 
-mov cl, 10
+mov al, [0xb800]

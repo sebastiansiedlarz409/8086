@@ -70,6 +70,13 @@ void ADD_REG16_IMM16_INS(CPU& cpu, Memory& mem){
     );
 }
 
+void MOV_AL_RM8_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    buffer8 = cpu.Mem_GetByte(mem, cpu.DS, buffer16);
+    cpu.AL = buffer8;
+}
+
 void MOV_AX_RM16_INS(CPU& cpu, Memory& mem){
     buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
