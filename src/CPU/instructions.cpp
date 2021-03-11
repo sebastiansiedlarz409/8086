@@ -12,6 +12,48 @@ void MOV_AL_IMM8_INS(CPU& cpu, Memory& mem){
     cpu.AL = buffer8;
 }
 
+void MOV_CL_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.CL = buffer8;
+}
+
+void MOV_DL_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.DL = buffer8;
+}
+
+void MOV_BL_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.BL = buffer8;
+}
+
+void MOV_AH_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.AH = buffer8;
+}
+
+void MOV_CH_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.CH = buffer8;
+}
+
+void MOV_DH_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.DH = buffer8;
+}
+
+void MOV_BH_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    cpu.BH = buffer8;
+}
+
 void MOV_AX_IMM16_INS(CPU& cpu, Memory& mem){
     buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;

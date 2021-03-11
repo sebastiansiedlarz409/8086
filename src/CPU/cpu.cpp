@@ -285,6 +285,34 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             MOV_AL_IMM8_INS(*this, mem);
             cycle-=2;
             break;
+        case MOV_CL_IMM8:
+            MOV_CL_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_DL_IMM8:
+            MOV_DL_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_BL_IMM8:
+            MOV_BL_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_AH_IMM8:
+            MOV_AH_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_CH_IMM8:
+            MOV_CH_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_DH_IMM8:
+            MOV_DH_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_BH_IMM8:
+            MOV_BH_IMM8_INS(*this, mem);
+            cycle-=2;
+            break;
         case MOV_AX_IMM16:
             MOV_AX_IMM16_INS(*this, mem);
             cycle-=2;

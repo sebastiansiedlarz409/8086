@@ -63,7 +63,15 @@ int main()
         0x88, 0xC8,                                 //mov al, cl                |2
         0x88, 0xFA,                                 //mov dl, bh                |2
         0xA2, 0x22, 0x22,                           //mov byte [0x2222], al     |9
-        0xA3, 0x23, 0x22,                           //mov word [0x2223], ax
+        0xA3, 0x23, 0x22,                           //mov word [0x2223], ax     |9
+        0xB0, 0xAA,                                 //mov al, 0xAA              |3
+        0xB1, 0xCA,                                 //mov cl, 0xCA              |3
+        0xB2, 0xDA,                                 //mov dl, 0xDA              |3
+        0xB3, 0xBA,                                 //mov bl, 0xBA              |3
+        0xB4, 0xAA,                                 //mov ah, 0xAA              |3
+        0xB5, 0xCA,                                 //mov ch, 0xCA              |3
+        0xB6, 0xDA,                                 //mov dh, 0xDA              |3
+        0xB7, 0xBA,                                 //mov bh, 0xBA              |3
         //program end
     };
 
