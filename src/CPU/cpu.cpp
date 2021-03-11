@@ -301,6 +301,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             MOV_MEM8_AL_INS(*this, mem);
             cycle-=8; //EA?
             break;
+        case MOV_MEM16_AX:
+            MOV_MEM16_AX_INS(*this, mem);
+            cycle-=8; //EA?
+            break;
         case MOV_AX_RM16:
             MOV_AX_RM16_INS(*this, mem);
             cycle-=7; //EA?

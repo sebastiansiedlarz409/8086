@@ -90,6 +90,12 @@ void MOV_MEM8_AL_INS(CPU& cpu, Memory& mem){
     cpu.Mem_PutByte(mem, cpu.DS, buffer16, cpu.AL);
 }
 
+void MOV_MEM16_AX_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.Mem_PutWord(mem, cpu.DS, buffer16, cpu.AX);
+}
+
 void MOV_REG16_MEM16_INS(CPU& cpu, Memory& mem){
     buffer8 = cpu.GetFetchedByte();
     cpu.IP++;
