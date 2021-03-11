@@ -144,6 +144,25 @@ void CPU::SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_
     ZF = z;
 }
 
+uint8_t& CPU::GetReg8(uint8_t reg){
+    if(reg == 0)
+        return AL;
+    else if(reg == 1)
+        return CL;
+    else if(reg == 2)
+        return DL;
+    else if(reg == 3)
+        return BL;
+    else if(reg == 4)
+        return AH;
+    else if(reg == 5)
+        return CH;
+    else if(reg == 6)
+        return DH;
+    else
+        return BH;
+}
+
 uint16_t& CPU::GetReg16(uint8_t reg){
     if(reg == 0)
         return AX;
@@ -161,6 +180,53 @@ uint16_t& CPU::GetReg16(uint8_t reg){
         return SI;
     else
         return DI;
+}
+
+void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
+    uint8_t mod = modrm >> 6;
+    uint8_t reg = (modrm & 0b00111000) >> 3;
+    uint8_t rm = modrm & 0b00000111;
+
+    if(type == 3){  //reg, reg
+        GetReg8(rm) = GetReg8(reg);
+    }
+
+    else if(type == 2){ //reg, mem
+        if(mod == 0){ //mem -> [reg]
+            if(reg <= 7) //[reg]
+                GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm));
+            else{ //[imm16]
+                GetReg16(reg) = Mem_GetWord(mem, DS, GetFetchedWord());
+                IP+=2;
+            }
+        }
+        if(mod == 1){ //mem -> [reg+disp8]
+            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+        }
+        if(mod == 2){ //mem -> [reg+disp16]
+            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+        }
+    }
+
+    else if(type == 1) { //mem, reg
+        if(mod == 0){ //mem -> [reg]
+            if(reg != 0) //mem -> [reg]
+                Mem_PutWord(mem, DS, GetReg16(rm), GetReg16(reg));
+            else{ //mem -> [imm16]
+                uint16_t offset = GetFetchedWord();
+                IP+=2;
+                uint16_t value = GetFetchedWord();
+                Mem_PutWord(mem, DS, offset, value);
+                IP+=2;
+            }
+        }
+        if(mod == 1){ //mem -> [reg+disp8]
+            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+        }
+        if(mod == 2){ //mem -> [reg+disp16]
+            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+        }
+    }
 }
 
 void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
@@ -231,9 +297,17 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             MOV_AL_RM8_INS(*this, mem);
             cycle-=7; //EA?
             break;
+        case MOV_MEM8_AL:
+            MOV_MEM8_AL_INS(*this, mem);
+            cycle-=8; //EA?
+            break;
         case MOV_AX_RM16:
             MOV_AX_RM16_INS(*this, mem);
             cycle-=7; //EA?
+            break;
+        case MOV_REG8_REG8:
+            MOV_REG8_REG8_INS(*this, mem);
+            cycle--;
             break;
         case MOV_REG16_REG16:
             MOV_REG16_REG16_INS(*this, mem);

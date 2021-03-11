@@ -84,6 +84,12 @@ void MOV_AX_RM16_INS(CPU& cpu, Memory& mem){
     cpu.AX = buffer16_1;
 }
 
+void MOV_MEM8_AL_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.Mem_PutByte(mem, cpu.DS, buffer16, cpu.AL);
+}
+
 void MOV_REG16_MEM16_INS(CPU& cpu, Memory& mem){
     buffer8 = cpu.GetFetchedByte();
     cpu.IP++;
@@ -118,6 +124,13 @@ void MOV_MEM16_IMM16_INS(CPU& cpu, Memory& mem){
     }
     
     cpu.MoveIns16(mem, buffer8, disp, 1);
+}
+
+void MOV_REG8_REG8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP++;
+    
+    cpu.MoveIns8(mem, buffer8, 0, 3); //3 means both operand are regs
 }
 
 void MOV_REG16_REG16_INS(CPU& cpu, Memory& mem){
