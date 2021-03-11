@@ -60,10 +60,46 @@ void MOV_AX_IMM16_INS(CPU& cpu, Memory& mem){
     cpu.AX = buffer16;
 }
 
+void MOV_CX_IMM16_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.CX = buffer16;
+}
+
+void MOV_DX_IMM16_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.DX = buffer16;
+}
+
+void MOV_BX_IMM16_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.BX = buffer16;
+}
+
+void MOV_SP_IMM16_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.SP = buffer16;
+}
+
+void MOV_BP_IMM16_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.BP = buffer16;
+}
+
 void MOV_SI_IMM16_INS(CPU& cpu, Memory& mem){
     buffer16 = cpu.GetFetchedWord();
     cpu.IP+=2;
     cpu.SI = buffer16;
+}
+
+void MOV_DI_IMM16_INS(CPU& cpu, Memory& mem){
+    buffer16 = cpu.GetFetchedWord();
+    cpu.IP+=2;
+    cpu.DI = buffer16;
 }
 
 void PUSH_AX_INS(CPU& cpu, Memory& mem){

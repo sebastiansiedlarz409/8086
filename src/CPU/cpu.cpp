@@ -317,9 +317,33 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             MOV_AX_IMM16_INS(*this, mem);
             cycle-=2;
             break;
+        case MOV_CX_IMM16:
+            MOV_CX_IMM16_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_DX_IMM16:
+            MOV_DX_IMM16_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_BX_IMM16:
+            MOV_BX_IMM16_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_SP_IMM16:
+            MOV_SP_IMM16_INS(*this, mem);
+            cycle-=2;
+            break;
+        case MOV_BP_IMM16:
+            MOV_BP_IMM16_INS(*this, mem);
+            cycle-=2;
+            break;
         case MOV_SI_IMM16:
             MOV_SI_IMM16_INS(*this, mem);
             cycle-=3;
+            break;
+        case MOV_DI_IMM16:
+            MOV_DI_IMM16_INS(*this, mem);
+            cycle-=2;
             break;
         case MOV_AL_RM8:
             MOV_AL_RM8_INS(*this, mem);

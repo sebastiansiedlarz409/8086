@@ -72,6 +72,13 @@ int main()
         0xB5, 0xCA,                                 //mov ch, 0xCA              |3
         0xB6, 0xDA,                                 //mov dh, 0xDA              |3
         0xB7, 0xBA,                                 //mov bh, 0xBA              |3
+        0xB8, 0xAA, 0xAA,                           //mov ax, 0xAAAA            |3
+        0xB9, 0xCA, 0xCC,                           //mov cx, 0xCCCA            |3
+        0xBA, 0xDA, 0xDD,                           //mov dx, 0xDDDA            |3
+        0xBB, 0xBA, 0xBB,                           //mov bx, 0xBBBA            |3
+        0xBD, 0xCA, 0xBF,                           //mov bp, 0xBFCA            |3
+        0xBE, 0xDA, 0xBD,                           //mov si, 0xBDDA            |3
+        0xBF, 0xBA, 0xB0,                           //mov di, 0xB0BA            |3
         //program end
     };
 

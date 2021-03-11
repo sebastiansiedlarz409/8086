@@ -28,7 +28,13 @@ enum Instructions{
     MOV_DH_IMM8 = 0xB6,         //3
     MOV_BH_IMM8 = 0xB7,         //3
     MOV_AX_IMM16 = 0xB8,        //3
+    MOV_CX_IMM16 = 0xB9,        //3
+    MOV_DX_IMM16 = 0xBA,        //3
+    MOV_BX_IMM16 = 0xBB,        //3
+    MOV_SP_IMM16 = 0xBC,        //3
+    MOV_BP_IMM16 = 0xBD,        //3
     MOV_SI_IMM16 = 0xBE,        //3
+    MOV_DI_IMM16 = 0xBF,        //3
     MOV_AL_RM8 = 0xA0,          //8+EA
     MOV_AX_RM16 = 0xA1,         //8+EA
     MOV_MEM8_AL = 0xA2,         //9+EA
@@ -56,7 +62,13 @@ void MOV_CH_IMM8_INS(CPU& cpu, Memory& mem);
 void MOV_DH_IMM8_INS(CPU& cpu, Memory& mem);
 void MOV_BH_IMM8_INS(CPU& cpu, Memory& mem);
 void MOV_AX_IMM16_INS(CPU& cpu, Memory& mem);
+void MOV_CX_IMM16_INS(CPU& cpu, Memory& mem);
+void MOV_DX_IMM16_INS(CPU& cpu, Memory& mem);
+void MOV_BX_IMM16_INS(CPU& cpu, Memory& mem);
+void MOV_SP_IMM16_INS(CPU& cpu, Memory& mem);
+void MOV_BP_IMM16_INS(CPU& cpu, Memory& mem);
 void MOV_SI_IMM16_INS(CPU& cpu, Memory& mem);
+void MOV_DI_IMM16_INS(CPU& cpu, Memory& mem);
 void PUSH_AX_INS(CPU& cpu, Memory& mem);
 void POP_AX_INS(CPU& cpu, Memory& mem);
 void POP_CX_INS(CPU& cpu, Memory& mem);
