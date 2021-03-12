@@ -192,6 +192,24 @@ void MOV_REG16_MEM16_INS(CPU& cpu, Memory& mem){
     cpu.MoveIns16(mem, buffer8, disp, 1);
 }
 
+void MOV_MEM8_IMM8_INS(CPU& cpu, Memory& mem){ 
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP++;
+
+    uint8_t mod = buffer8 >> 6;
+    uint16_t disp = 0;
+    if(mod == 1){
+        disp = cpu.GetFetchedByte();
+        cpu.IP++;
+    }
+    else if(mod == 2){
+        disp = cpu.GetFetchedWord();
+        cpu.IP+=2;
+    }
+    
+    cpu.MoveIns8(mem, buffer8, disp, 1);
+}
+
 void MOV_MEM16_IMM16_INS(CPU& cpu, Memory& mem){ 
     buffer8 = cpu.GetFetchedByte();
     cpu.IP++;

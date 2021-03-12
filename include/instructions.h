@@ -41,6 +41,7 @@ enum Instructions{
     MOV_MEM16_AX = 0xA3,        //9+EA
     MOV_REG8_REG8 = 0x88,       //2
     MOV_REG16_REG16 = 0x89,     //2
+    MOV_MEM8_IMM8 = 0xC6,       //10+EA
     MOV_MEM16_IMM16 = 0xC7,     //10+EA
     MOV_REG16_MEM16 = 0x8B,     //8+EA
     PUSH_AX = 0x50,             //8
@@ -79,6 +80,7 @@ void MOV_AX_RM16_INS(CPU& cpu, Memory& mem);
 void MOV_MEM8_AL_INS(CPU& cpu, Memory& mem);
 void MOV_MEM16_AX_INS(CPU& cpu, Memory& mem);
 void MOV_REG16_MEM16_INS(CPU& cpu, Memory& mem);
+void MOV_MEM8_IMM8_INS(CPU& cpu, Memory& mem);
 void MOV_MEM16_IMM16_INS(CPU& cpu, Memory& mem);
 void MOV_REG8_REG8_INS(CPU& cpu, Memory& mem);
 void MOV_REG16_REG16_INS(CPU& cpu, Memory& mem);

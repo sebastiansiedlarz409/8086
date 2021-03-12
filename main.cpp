@@ -79,6 +79,7 @@ int main()
         0xBD, 0xCA, 0xBF,                           //mov bp, 0xBFCA            |3
         0xBE, 0xDA, 0xBD,                           //mov si, 0xBDDA            |3
         0xBF, 0xBA, 0xB0,                           //mov di, 0xB0BA            |3
+        0xC6, 0x06, 0x02, 0xb8, 0x12                //mov byte [0xb802], 0x12
         //program end
     };
 
@@ -92,7 +93,7 @@ int main()
     debugger.Eflags(cpu, memory);
     debugger.ShowSegment(cpu, memory, cpu.CS, 0x0, 256);
     debugger.ShowStack(cpu, memory, 2);
-    debugger.ShowSegment(cpu, memory, cpu.DS, 0xb800, 4);
+    debugger.ShowSegment(cpu, memory, cpu.DS, 0xb800, 16);
     debugger.ShowSegment(cpu, memory, cpu.DS, 0x2222, 4);
     printf("Done");
     
