@@ -191,7 +191,7 @@ void MOV_REG16_MEM16_INS(CPU& cpu, Memory& mem){
         cpu.IP+=2;
     }
 
-    cpu.MoveIns16(mem, buffer8, disp, 1);
+    cpu.MoveIns16(mem, buffer8, disp, 2);
 }
 
 void MOV_MEM8_IMM8_INS(CPU& cpu, Memory& mem){ 

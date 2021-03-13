@@ -199,7 +199,6 @@ void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
     uint8_t mod = modrm >> 6;
     uint8_t reg = (modrm & 0b00111000) >> 3;
     uint8_t rm = modrm & 0b00000111;
-    printf("ASD %x %x %x\r\n", disp, type, modrm);
 
     if(type == 3){  //reg, reg
         GetReg8(rm) = GetReg8(reg);
@@ -247,7 +246,6 @@ void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             else{
                 uint8_t value = GetFetchedByte();
                 Mem_PutWord(mem, DS, OffsetReg(rm)+disp, value);
-                printf("zz %x\r\n", OffsetReg(rm)+disp);
                 IP++;
             }
         }
@@ -257,7 +255,6 @@ void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             else{
                 uint8_t value = GetFetchedByte();
                 Mem_PutWord(mem, DS, OffsetReg(rm)+disp, value);
-                printf("zz %x\r\n", OffsetReg(rm)+disp);
                 IP++;   
             }
         }
@@ -295,18 +292,37 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             if(reg != 0) //mem -> [reg]
                 Mem_PutWord(mem, DS, GetReg16(rm), GetReg16(reg));
             else{ //mem -> [imm16]
-                uint16_t offset = GetFetchedWord();
-                IP+=2;
-                uint16_t value = GetFetchedWord();
-                Mem_PutWord(mem, DS, offset, value);
-                IP+=2;
+                if(rm == 6){
+                    uint16_t offset = GetFetchedWord();
+                    IP+=2;
+                    uint16_t value = GetFetchedWord();
+                    Mem_PutWord(mem, DS, offset, value);
+                    IP+=2;
+                }
+                else{
+                    uint16_t value = GetFetchedWord();
+                    Mem_PutWord(mem, DS, OffsetReg(rm), value);
+                    IP+=2;
+                }
             }
         }
         if(mod == 1){ //mem -> [reg+disp8]
-            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+            if(reg != 0)
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, GetReg16(reg));
+            else{
+                uint16_t value = GetFetchedWord();
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, value);
+                IP+=2; 
+            }    
         }
         if(mod == 2){ //mem -> [reg+disp16]
-            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+            if(reg != 0)
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, GetReg16(reg));
+            else{
+                uint16_t value = GetFetchedWord();
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, value);
+                IP+=2; 
+            }
         }
     }
 }
