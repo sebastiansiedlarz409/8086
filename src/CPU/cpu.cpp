@@ -2,6 +2,8 @@
 #include "..\..\include\instructions.h"
 #include "..\..\include\memory.h"
 
+#include <cstdio>
+
 void CPU::Reset(Memory& mem){
     DS = ES = SS = 0x3000;
 
@@ -182,10 +184,22 @@ uint16_t& CPU::GetReg16(uint8_t reg){
         return DI;
 }
 
+uint16_t& CPU::OffsetReg(uint8_t reg){
+    if(reg == 4)
+        return SI;
+    else if(reg == 5)
+        return DI;
+    else if(reg == 6)
+        return BP;
+    else
+        return BX;
+}
+
 void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
     uint8_t mod = modrm >> 6;
     uint8_t reg = (modrm & 0b00111000) >> 3;
     uint8_t rm = modrm & 0b00000111;
+    printf("ASD %x %x %x\r\n", disp, type, modrm);
 
     if(type == 3){  //reg, reg
         GetReg8(rm) = GetReg8(reg);
@@ -201,10 +215,10 @@ void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             }
         }
         if(mod == 1){ //mem -> [reg+disp8]
-            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+            GetReg16(reg) = Mem_GetWord(mem, DS, OffsetReg(rm)+disp);
         }
         if(mod == 2){ //mem -> [reg+disp16]
-            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+            GetReg16(reg) = Mem_GetWord(mem, DS, OffsetReg(rm)+disp);
         }
     }
 
@@ -221,10 +235,24 @@ void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
             }
         }
         if(mod == 1){ //mem -> [reg+disp8]
-            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+            if(reg != 0)
+                Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+            else{
+                uint8_t value = GetFetchedByte();
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, value);
+                printf("zz %x\r\n", OffsetReg(rm)+disp);
+                IP++;
+            }
         }
         if(mod == 2){ //mem -> [reg+disp16]
-            Mem_PutWord(mem, DS, GetReg16(rm)+disp, GetReg16(reg));
+            if(reg != 0)
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, GetReg16(reg));
+            else{
+                uint8_t value = GetFetchedByte();
+                Mem_PutWord(mem, DS, OffsetReg(rm)+disp, value);
+                printf("zz %x\r\n", OffsetReg(rm)+disp);
+                IP++;   
+            }
         }
     }
 }

@@ -2,6 +2,8 @@
 #include "..\..\include\instructions.h"
 #include "..\..\include\memory.h"
 
+#include <cstdio>
+
 uint16_t buffer16;
 uint16_t buffer16_1;
 uint8_t buffer8;
@@ -199,8 +201,8 @@ void MOV_MEM8_IMM8_INS(CPU& cpu, Memory& mem){
     uint8_t mod = buffer8 >> 6;
     uint16_t disp = 0;
     if(mod == 1){
-        disp = cpu.GetFetchedByte();
-        cpu.IP++;
+        disp = cpu.GetFetchedWord();
+        cpu.IP+=2;
     }
     else if(mod == 2){
         disp = cpu.GetFetchedWord();
@@ -217,8 +219,8 @@ void MOV_MEM16_IMM16_INS(CPU& cpu, Memory& mem){
     uint8_t mod = buffer8 >> 6;
     uint16_t disp = 0;
     if(mod == 1){
-        disp = cpu.GetFetchedByte();
-        cpu.IP++;
+        disp = cpu.GetFetchedWord();
+        cpu.IP+=2;
     }
     else if(mod == 2){
         disp = cpu.GetFetchedWord();
