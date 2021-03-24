@@ -6,6 +6,7 @@
 
 void CPU::Reset(Memory& mem){
     DS = ES = SS = 0x3000;
+    ES = 0x4000;
 
     AX = BX = CX = DX = 0;
 
@@ -431,6 +432,14 @@ void CPU::Execute(Memory& mem, int16_t cycle){
         case MOV_MEM16_IMM16:
             MOV_MEM16_IMM16_INS(*this, mem);
             cycle-=9;
+            break;
+        case MOVSB:
+            MOVSB_INS(*this, mem);
+            cycle-=18;
+            break;
+        case MOVSW:
+            MOVSW_INS(*this, mem);
+            cycle-=18;
             break;
         case PUSH_AX:
             PUSH_AX_INS(*this, mem);

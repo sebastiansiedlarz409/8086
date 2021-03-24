@@ -91,6 +91,12 @@ int main()
         0xC7, 0x85, 0x08, 0xb8, 0x78, 0x56,         //mov word [di+0xb808], 0x5678|10
         0xBF, 0x0A, 0xB8,                           //mov di, 0xb80A            |3
         0xC7, 0x05, 0xAA, 0xEE,                     //mov word [di], 0xEEAA     |10
+        0xBF, 0x0A, 0xB8,                           //mov di, 0xb80A            |3
+        0xBE, 0x0A, 0xB8,                           //mov si, 0xb80A            |3
+        0xA4,                                       //movsb                     |18
+        0xBF, 0x08, 0xB8,                           //mov di, 0xb808            |3
+        0xBE, 0x08, 0xB8,                           //mov si, 0xb808            |3
+        0xA5,                                       //movsw                     |18
         //program end
     };
 
@@ -105,7 +111,8 @@ int main()
     debugger.ShowSegment(cpu, memory, cpu.CS, 0x0, 256);
     debugger.ShowStack(cpu, memory, 2);
     debugger.ShowSegment(cpu, memory, cpu.DS, 0xb800, 16);
-    debugger.ShowSegment(cpu, memory, cpu.DS, 0x2222, 4);
+    debugger.ShowSegment(cpu, memory, cpu.DS, 0x2222, 16);
+    debugger.ShowSegment(cpu, memory, cpu.ES, 0xb800, 16);
     printf("Done");
     
     return 0;

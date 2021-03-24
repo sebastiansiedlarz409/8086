@@ -244,6 +244,15 @@ void MOV_REG16_REG16_INS(CPU& cpu, Memory& mem){
     cpu.MoveIns16(mem, buffer8, 0, 3); //3 means both operand are regs
 }
 
+void MOVSB_INS(CPU& cpu, Memory& mem){
+    //mov es:di, di:si
+    cpu.Mem_PutByte(mem, cpu.ES, cpu.DI, cpu.Mem_GetByte(mem, cpu.DS, cpu.SI));
+}
+
+void MOVSW_INS(CPU& cpu, Memory& mem){
+    cpu.Mem_PutWord(mem, cpu.ES, cpu.DI, cpu.Mem_GetWord(mem, cpu.DS, cpu.SI));
+}
+
 void DEC_AX_INS(CPU& cpu, Memory& mem){
     cpu.AX--;
     cpu.SetFLAGS(
