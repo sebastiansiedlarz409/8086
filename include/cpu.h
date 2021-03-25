@@ -38,6 +38,7 @@ class CPU : public Registers
     uint8_t& GetReg8(uint8_t reg);
     uint16_t& GetReg16(uint8_t reg);
     uint16_t& OffsetReg(uint8_t reg);
+    uint16_t& SegReg(uint8_t reg);
     void MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type);
     void MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type);
 };

@@ -93,6 +93,8 @@ int main()
         0xC7, 0x05, 0xAA, 0xEE,                     //mov word [di], 0xEEAA     |10
         0xBF, 0x0A, 0xB8,                           //mov di, 0xb80A            |3
         0xBE, 0x0A, 0xB8,                           //mov si, 0xb80A            |3
+        0xBB, 0x00, 0x40,                           //mov bx, 0x4000            |3
+        0x8E, 0xC3,                                 //mov es, bx                |2
         0xA4,                                       //movsb                     |18
         0xBF, 0x08, 0xB8,                           //mov di, 0xb808            |3
         0xBE, 0x08, 0xB8,                           //mov si, 0xb808            |3

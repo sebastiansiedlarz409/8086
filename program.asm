@@ -1,2 +1,1 @@
-mov dl, [si+0xb803]
-;mov bl, [0xb800]
+mov es, bx

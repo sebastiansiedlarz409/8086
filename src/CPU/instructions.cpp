@@ -264,6 +264,16 @@ void MOV_REG16_REG16_INS(CPU& cpu, Memory& mem){
     cpu.MoveIns16(mem, buffer8, 0, 3); //3 means both operand are regs
 }
 
+void MOV_SREG_REG16_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP++;
+
+    uint8_t reg = (buffer8 & 0b00011000) >> 3;
+    uint8_t rm = buffer8 & 0b00000111;
+
+    cpu.SegReg(reg) = cpu.GetReg16(rm);
+}
+
 void MOVSB_INS(CPU& cpu, Memory& mem){
     //mov es:di, di:si
     cpu.Mem_PutByte(mem, cpu.ES, cpu.DI, cpu.Mem_GetByte(mem, cpu.DS, cpu.SI));

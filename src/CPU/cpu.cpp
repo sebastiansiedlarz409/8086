@@ -6,7 +6,6 @@
 
 void CPU::Reset(Memory& mem){
     DS = ES = SS = 0x3000;
-    ES = 0x4000;
 
     AX = BX = CX = DX = 0;
 
@@ -194,6 +193,17 @@ uint16_t& CPU::OffsetReg(uint8_t reg){
         return BP;
     else
         return BX;
+}
+
+uint16_t& CPU::SegReg(uint8_t reg){
+    if(reg == 0)
+        return ES;
+    else if(reg == 1)
+        return CS;
+    else if(reg == 2)
+        return SS;
+    else
+        return DS;
 }
 
 void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
@@ -438,6 +448,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
         case MOV_MEM16_IMM16:
             MOV_MEM16_IMM16_INS(*this, mem);
             cycle-=9;
+            break;
+        case MOV_SREG_REG16:
+            MOV_SREG_REG16_INS(*this, mem);
+            cycle-=2;
             break;
         case MOVSB:
             MOVSB_INS(*this, mem);
