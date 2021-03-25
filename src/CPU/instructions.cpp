@@ -295,6 +295,14 @@ void MOVSW_INS(CPU& cpu, Memory& mem){
     cpu.Mem_PutWord(mem, cpu.ES, cpu.DI, cpu.Mem_GetWord(mem, cpu.DS, cpu.SI));
 }
 
+void STOSB_INS(CPU& cpu, Memory& mem){
+    cpu.Mem_PutByte(mem, cpu.ES, cpu.DI, cpu.AL);
+}
+
+void STOSW_INS(CPU& cpu, Memory& mem){
+    cpu.Mem_PutWord(mem, cpu.ES, cpu.DI, cpu.AX);
+}
+
 void DEC_AX_INS(CPU& cpu, Memory& mem){
     cpu.AX--;
     cpu.SetFLAGS(

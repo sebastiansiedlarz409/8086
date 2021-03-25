@@ -1,1 +1,1 @@
-mov dx, es
+stosb

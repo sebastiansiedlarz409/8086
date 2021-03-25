@@ -108,6 +108,11 @@ int main()
         0x8A, 0x1C,                                 //mov bl, [si]              |8
         0x8A, 0x4C, 0x01,                           //mov cl, [si+1]            |8
         0x8C, 0xC2,                                 //mov dx, es                |2
+        0xBF, 0x00, 0xB8,                           //mov di, 0xB800            |3
+        0xB0, 0x56,                                 //mov al, 0x56              |3
+        0xAA,                                       //stosb                     |11
+        0xBF, 0x01, 0xB8,                           //mov di, 0xB801            |3
+        0xAB,                                       //stosw                     |11
         //program end
     };
 
