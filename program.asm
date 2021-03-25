@@ -1,1 +1,2 @@
-movsw
+mov dx, [si+0xb803]
+;mov bl, [0xb800]

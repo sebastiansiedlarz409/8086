@@ -273,25 +273,27 @@ void CPU::MoveIns16(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
 
     else if(type == 2){ //reg, mem
         if(mod == 0){ //mem -> [reg]
-            if(reg <= 7) //[reg]
-                GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm));
+            if(reg <= 7){ //[reg]
+                GetReg16(reg) = Mem_GetWord(mem, DS, OffsetReg(rm));
+            }
             else{ //[imm16]
                 GetReg16(reg) = Mem_GetWord(mem, DS, GetFetchedWord());
                 IP+=2;
             }
         }
         if(mod == 1){ //mem -> [reg+disp8]
-            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+            GetReg16(reg) = Mem_GetWord(mem, DS, OffsetReg(rm)+disp);
         }
         if(mod == 2){ //mem -> [reg+disp16]
-            GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm)+disp);
+            GetReg16(reg) = Mem_GetWord(mem, DS, OffsetReg(rm)+disp);
         }
     }
 
     else if(type == 1) { //mem, reg
         if(mod == 0){ //mem -> [reg]
-            if(reg != 0) //mem -> [reg]
+            if(reg != 0){ //mem -> [reg]
                 Mem_PutWord(mem, DS, GetReg16(rm), GetReg16(reg));
+            }
             else{ //mem -> [imm16]
                 if(rm == 6){
                     uint16_t offset = GetFetchedWord();
