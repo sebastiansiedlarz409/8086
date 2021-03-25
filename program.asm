@@ -1,1 +1,1 @@
-mov es, bx
+mov dx, es

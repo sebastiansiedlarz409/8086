@@ -453,6 +453,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             MOV_SREG_REG16_INS(*this, mem);
             cycle-=2;
             break;
+        case MOV_REG16_SREG:
+            MOV_REG16_SREG_INS(*this, mem);
+            cycle-=2;
+            break;
         case MOVSB:
             MOVSB_INS(*this, mem);
             cycle-=18;
