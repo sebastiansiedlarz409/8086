@@ -208,7 +208,7 @@ void CPU::MoveIns8(Memory& mem, uint8_t modrm, uint16_t disp, uint8_t type){
     else if(type == 2){ //reg, mem
         if(mod == 0){ //mem -> [reg]
             if(reg <= 7) //[reg]
-                GetReg16(reg) = Mem_GetWord(mem, DS, GetReg16(rm));
+                GetReg16(reg) = Mem_GetWord(mem, DS, OffsetReg(rm));
             else{ //[imm16]
                 GetReg16(reg) = Mem_GetWord(mem, DS, GetFetchedWord());
                 IP+=2;
@@ -425,6 +425,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             break;
         case MOV_REG16_MEM16:
             MOV_REG16_MEM16_INS(*this, mem);
+            cycle-=8;
+            break;
+        case MOV_REG16_MEM8:
+            MOV_REG16_MEM8_INS(*this, mem);
             cycle-=8;
             break;
         case MOV_MEM8_IMM8:

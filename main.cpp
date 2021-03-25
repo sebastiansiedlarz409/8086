@@ -101,7 +101,10 @@ int main()
         0x8B, 0x1C,                                 //mov bx, [si]              |8
         0x8B, 0x4C, 0x01,                           //mov cx, [si+1]            |8
         0xBE, 0x00, 0x00,                           //mov si, 0x0000            |3
-        0x8B, 0x94, 0x03, 0xB8,                     //mov dx, [si+0xb803]       |8
+        0x8A, 0x94, 0x05, 0xB8,                     //mov dl, [si+0xb805]       |8
+        0xBE, 0x06, 0xB8,                           //mov si, 0xb806            |3
+        0x8A, 0x1C,                                 //mov bl, [si]              |8
+        0x8A, 0x4C, 0x01,                           //mov cl, [si+1]            |8
         //program end
     };
 
