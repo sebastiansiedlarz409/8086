@@ -473,6 +473,14 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             STOSW_INS(*this, mem);
             cycle-=18;
             break;
+        case CLD:
+            CLD_INS(*this, mem);
+            cycle-=2;
+            break;
+        case STD:
+            STD_INS(*this, mem);
+            cycle-=2;
+            break;
         case PUSH_AX:
             PUSH_AX_INS(*this, mem);
             cycle-=10;

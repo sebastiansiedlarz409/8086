@@ -56,6 +56,8 @@ enum Instructions{
     POP_CX = 0x59,              //8
     DEC_AX = 0x48,              //2
     INC_AX = 0x40,              //2
+    STD = 0xFD,                 //2
+    CLD = 0xFC,                 //2
     JZ = 0x74,                  //16
     JNZ = 0x75,                 //16
     NOP = 0x90,                 //1
@@ -98,6 +100,8 @@ void MOVSB_INS(CPU& cpu, Memory& mem);
 void MOVSW_INS(CPU& cpu, Memory& mem);
 void STOSB_INS(CPU& cpu, Memory& mem);
 void STOSW_INS(CPU& cpu, Memory& mem);
+void STD_INS(CPU& cpu, Memory& mem);
+void CLD_INS(CPU& cpu, Memory& mem);
 void DEC_AX_INS(CPU& cpu, Memory& mem);
 void INC_AX_INS(CPU& cpu, Memory& mem);
 void JZ_INS(CPU& cpu, Memory& mem);

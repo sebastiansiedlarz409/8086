@@ -303,6 +303,14 @@ void STOSW_INS(CPU& cpu, Memory& mem){
     cpu.Mem_PutWord(mem, cpu.ES, cpu.DI, cpu.AX);
 }
 
+void STD_INS(CPU& cpu, Memory& mem){
+    cpu.DF = 1;
+}
+
+void CLD_INS(CPU& cpu, Memory& mem){
+    cpu.DF = 0;
+}
+
 void DEC_AX_INS(CPU& cpu, Memory& mem){
     cpu.AX--;
     cpu.SetFLAGS(

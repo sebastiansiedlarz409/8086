@@ -125,10 +125,10 @@ int main()
     debugger.Registers(cpu, memory);
     debugger.Eflags(cpu, memory);
     debugger.ShowSegment(cpu, memory, cpu.CS, 0x0, 256);
-    debugger.ShowStack(cpu, memory, 2);
     debugger.ShowSegment(cpu, memory, cpu.DS, 0xb800, 16);
     debugger.ShowSegment(cpu, memory, cpu.DS, 0x2222, 16);
     debugger.ShowSegment(cpu, memory, cpu.ES, 0xb800, 16);
+    debugger.ShowStack(cpu, memory, 2);
     printf("Done");
     
     return 0;
