@@ -3,8 +3,6 @@
 #include "..\..\include\instructions.h"
 #include "..\..\include\memory.h"
 
-#include <cstdio>
-
 uint16_t buffer16;
 uint16_t buffer16_1;
 uint8_t buffer8;
