@@ -459,15 +459,15 @@ void CPU::Execute(Memory& mem, int16_t cycle){
             break;
         case MOVSB:
             MOVSB_INS(*this, mem);
-            cycle-=18;
+            cycle-=17;
             break;
         case MOVSW:
             MOVSW_INS(*this, mem);
-            cycle-=18;
+            cycle-=17;
             break;
         case STOSB:
             STOSB_INS(*this, mem);
-            cycle-=18;
+            cycle-=10;
             break;
         case STOSW:
             STOSW_INS(*this, mem);
@@ -492,6 +492,10 @@ void CPU::Execute(Memory& mem, int16_t cycle){
         case POP_CX:
             POP_CX_INS(*this, mem);
             cycle-=7;
+            break;
+        case ADD_AL_IMM8:
+            ADD_AL_IMM8_INS(*this, mem);
+            cycle-=3;
             break;
         case ADD_AX_IMM16:
             ADD_AX_IMM16_INS(*this, mem);

@@ -17,6 +17,7 @@
 //- 80188/80186 timings differ from those of the 8088/8086/80286
 
 enum Instructions{
+    ADD_AL_IMM8 = 0x04,         //4
     ADD_AX_IMM16 = 0x05,        //4
     ADD_REG16_IMM16 = 0x81,     //4
     MOV_AL_IMM8 = 0xB0,         //3
@@ -82,6 +83,7 @@ void MOV_DI_IMM16_INS(CPU& cpu, Memory& mem);
 void PUSH_AX_INS(CPU& cpu, Memory& mem);
 void POP_AX_INS(CPU& cpu, Memory& mem);
 void POP_CX_INS(CPU& cpu, Memory& mem);
+void ADD_AL_IMM8_INS(CPU& cpu, Memory& mem);
 void ADD_AX_IMM16_INS(CPU& cpu, Memory& mem);
 void ADD_REG16_IMM16_INS(CPU& cpu, Memory& mem);
 void MOV_AL_RM8_INS(CPU& cpu, Memory& mem);

@@ -7,6 +7,7 @@
 uint16_t buffer16;
 uint16_t buffer16_1;
 uint8_t buffer8;
+uint8_t buffer8_1;
 
 void MOV_AL_IMM8_INS(CPU& cpu, Memory& mem){
     buffer8 = cpu.GetFetchedByte();
@@ -115,6 +116,21 @@ void POP_AX_INS(CPU& cpu, Memory& mem){
 
 void POP_CX_INS(CPU& cpu, Memory& mem){
     cpu.CX = cpu.Pop(mem);
+}
+
+void ADD_AL_IMM8_INS(CPU& cpu, Memory& mem){
+    buffer8 = cpu.GetFetchedByte();
+    cpu.IP+=1;
+    buffer8_1 = cpu.AL;
+    cpu.AL += buffer8;
+    cpu.SetFLAGS(
+        cpu.GetOF(buffer8, buffer8_1),
+        cpu.GetSF(cpu.AL),
+        cpu.GetCF(buffer8, buffer8_1),
+        cpu.GetAF(buffer8, buffer8_1),
+        cpu.GetPF(cpu.AL),
+        cpu.GetZF(cpu.AL)
+    );
 }
 
 void ADD_AX_IMM16_INS(CPU& cpu, Memory& mem){

@@ -113,6 +113,7 @@ int main()
         0xAA,                                       //stosb                     |11
         0xBF, 0x01, 0xB8,                           //mov di, 0xB801            |3
         0xAB,                                       //stosw                     |11
+        0x04, 0x02,                                 //mov al, 0x2               |4
         //program end
     };
 
