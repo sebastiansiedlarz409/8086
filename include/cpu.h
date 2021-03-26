@@ -29,12 +29,6 @@ class CPU : public Registers
     void ClearFetchedBuffer();
     void Execute(Memory& mem, int16_t cycle);
     void SetFLAGS(uint8_t o, uint8_t s, uint8_t c, uint8_t a, uint8_t p, uint8_t z);
-    uint8_t GetOF(uint16_t value1, uint16_t value2);
-    uint8_t GetSF(uint16_t value);
-    uint8_t GetCF(uint16_t value1, uint16_t value2);
-    uint8_t GetZF(uint16_t value);
-    uint8_t GetPF(uint16_t value);
-    uint8_t GetAF(uint16_t value1, uint16_t value2);
     uint8_t& GetReg8(uint8_t reg);
     uint16_t& GetReg16(uint8_t reg);
     uint16_t& OffsetReg(uint8_t reg);

@@ -1,4 +1,5 @@
 #include "..\..\include\cpu.h"
+#include "..\..\include\flags.h"
 #include "..\..\include\instructions.h"
 #include "..\..\include\memory.h"
 
@@ -124,12 +125,12 @@ void ADD_AL_IMM8_INS(CPU& cpu, Memory& mem){
     buffer8_1 = cpu.AL;
     cpu.AL += buffer8;
     cpu.SetFLAGS(
-        cpu.GetOF(buffer8, buffer8_1),
-        cpu.GetSF(cpu.AL),
-        cpu.GetCF(buffer8, buffer8_1),
-        cpu.GetAF(buffer8, buffer8_1),
-        cpu.GetPF(cpu.AL),
-        cpu.GetZF(cpu.AL)
+        GetOF8(buffer8, buffer8_1, cpu.AL),
+        GetSF8(cpu.AL),
+        GetCF8(buffer8, buffer8_1),
+        GetAF8(buffer8, buffer8_1),
+        GetPF8(cpu.AL),
+        GetZF8(cpu.AL)
     );
 }
 
@@ -139,12 +140,12 @@ void ADD_AX_IMM16_INS(CPU& cpu, Memory& mem){
     buffer16_1 = cpu.AX;
     cpu.AX += buffer16;
     cpu.SetFLAGS(
-        cpu.GetOF(buffer16, buffer16_1),
-        cpu.GetSF(cpu.AX),
-        cpu.GetCF(buffer16, buffer16_1),
-        cpu.GetAF(buffer16, buffer16_1),
-        cpu.GetPF(cpu.AX),
-        cpu.GetZF(cpu.AX)
+        GetOF16(buffer16, buffer16_1, cpu.AX),
+        GetSF16(cpu.AX),
+        GetCF16(buffer16, buffer16_1),
+        GetAF16(buffer16, buffer16_1),
+        GetPF16(cpu.AX),
+        GetZF16(cpu.AX)
     );
 }
 
@@ -157,12 +158,12 @@ void ADD_REG16_IMM16_INS(CPU& cpu, Memory& mem){
     buffer16_1 = cpu.GetReg16(buffer8 & 0b00000111);    //reg
     cpu.GetReg16(buffer8 & 0b00000111) += buffer16;
     cpu.SetFLAGS(
-        cpu.GetOF(buffer16, buffer16_1),
-        cpu.GetSF(buffer16_1),
-        cpu.GetCF(buffer16, buffer16_1),
-        cpu.GetAF(buffer16, buffer16_1),
-        cpu.GetPF(buffer16_1),
-        cpu.GetZF(buffer16_1)
+        GetOF16(buffer16, buffer16_1, cpu.GetReg16(buffer8 & 0b00000111)),
+        GetSF16(buffer16_1),
+        GetCF16(buffer16, buffer16_1),
+        GetAF16(buffer16, buffer16_1),
+        GetPF16(buffer16_1),
+        GetZF16(buffer16_1)
     );
 }
 
@@ -330,24 +331,24 @@ void CLD_INS(CPU& cpu, Memory& mem){
 void DEC_AX_INS(CPU& cpu, Memory& mem){
     cpu.AX--;
     cpu.SetFLAGS(
-        cpu.GetOF(1, cpu.AX+1),
-        cpu.GetSF(cpu.AX),
+        GetOF16(1, cpu.AX+1, cpu.AX),
+        GetSF16(cpu.AX),
         cpu.CF,
-        cpu.GetAF(1, cpu.AX+1),
-        cpu.GetPF(cpu.AX),
-        cpu.GetZF(cpu.AX)
+        GetAF16(1, cpu.AX+1),
+        GetPF16(cpu.AX),
+        GetZF16(cpu.AX)
     );
 }
 
 void INC_AX_INS(CPU& cpu, Memory& mem){
     cpu.AX++;
     cpu.SetFLAGS(
-        cpu.GetOF(1, cpu.AX-1),
-        cpu.GetSF(cpu.AX),
+        GetOF16(1, cpu.AX-1, cpu.AX),
+        GetSF16(cpu.AX),
         cpu.CF,
-        cpu.GetAF(1, cpu.AX-1),
-        cpu.GetPF(cpu.AX),
-        cpu.GetZF(cpu.AX)
+        GetAF16(1, cpu.AX-1),
+        GetPF16(cpu.AX),
+        GetZF16(cpu.AX)
     );
 }
 
