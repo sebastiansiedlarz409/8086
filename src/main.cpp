@@ -1,10 +1,10 @@
 #include <cstdio>
 #include <vector>
 
-#include "include\cpu.h"
-#include "include\debugger.h"
-#include "include\memory.h"
-#include "include\programmer.h"
+#include "..\include\cpu.h"
+#include "..\include\debugger.h"
+#include "..\include\memory.h"
+#include "..\include\programmer.h"
 
 //https://edge.edx.org/c4x/BITSPilani/EEE231/asset/8086_family_Users_Manual_1_.pdf
 //https://wiki.osdev.org/MZ
