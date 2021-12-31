@@ -49,7 +49,9 @@ void Debugger::Eflags(CPU& cpu, Memory& memory){
     uint8_t AF = cpu.AF;
     uint8_t PF = cpu.PF;
     uint8_t CF = cpu.CF;
+    
     printf("%s %s %s %s %s %s %s %s %s\n\r",
+
     OF == 1 ? "OF" : "of",
     IF == 1 ? "IF" : "if",
     DF == 1 ? "DF" : "df",
@@ -74,7 +76,7 @@ void Debugger::ShowSegment(CPU& cpu, Memory& mem, uint16_t seg, uint16_t offset,
 }
 
 void Debugger::ShowStack(CPU& cpu, Memory& mem, uint16_t size){
-    printf("\n\rSTACK:\n\r");
+    printf("\n\rSTACK: \n\r");
     uint16_t sp = cpu.SP;
     for(uint16_t i = 0;i<size;i++){
         if(sp>=0xFFFF){

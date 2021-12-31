@@ -1,21 +1,20 @@
-CC := g++
-CFLAGS := -c -Wall -std=c++17
-LFLAGS := -std=c++17
+CC = g++
+CFLAGS = -c -Wall -std=c++17
+LFLAGS = -std=c++17
+TARGET = 8086.exe
+SRC_DIR = src
+OBJ_DIR = obj
 
-TARGET := 8086.exe
-BUILD_DIR := build
-SRC_DIR := src
-OBJ_DIR := obj
-
-SRCS := $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/*/*.cpp)
-OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
-OBJJ := $(wildcard $(OBJ_DIR)/*.cpp.o)
-
-$(BUILD_DIR)/$(TARGET): $(OBJJ)
-	@echo $(OBJJ)
-	@if not exist $(BUILD_DIR) mkdir $(BUILD_DIR)
-	$(CC) $(OBJJ) -o $@ $(LFLAGS)
-
-$(OBJ_DIR)/%.cpp.o: %.cpp
-	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
-	$(CC) $(CFLAGS) $< -o $(OBJ_DIR)/$(notdir $@)
+build:
+	@echo Building...
+	@mkdir -p ${OBJ_DIR}
+	${CC} ${CFLAGS}  ${SRC_DIR}\main.cpp -o ${OBJ_DIR}\main.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\cpu\cpu.cpp -o ${OBJ_DIR}\cpu.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\memory\memory.cpp -o ${OBJ_DIR}\memory.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\cpu\instructions.cpp -o ${OBJ_DIR}\instructions.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\programmer\programmer.cpp -o ${OBJ_DIR}\programmer.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\debugger\debugger.cpp -o ${OBJ_DIR}\debugger.o
+	${CC} ${CFLAGS}  ${SRC_DIR}\cpu\flags.cpp -o ${OBJ_DIR}\flags.o
+	@echo Linking...
+	${CC} ${LFLAGS} ${OBJ_DIR}\main.o ${OBJ_DIR}\cpu.o ${OBJ_DIR}\memory.o ${OBJ_DIR}\programmer.o ${OBJ_DIR}\debugger.o ${OBJ_DIR}\instructions.o ${OBJ_DIR}\flags.o -o ${TARGET}
+	@echo Done...

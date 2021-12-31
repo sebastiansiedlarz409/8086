@@ -6,11 +6,6 @@
 #include "..\include\memory.h"
 #include "..\include\programmer.h"
 
-//https://edge.edx.org/c4x/BITSPilani/EEE231/asset/8086_family_Users_Manual_1_.pdf
-//https://wiki.osdev.org/MZ
-//https://csiflabs.cs.ucdavis.edu/~ssdavis/50/8086%20Opcodes.pdf
-//https://www.gabrielececchetti.it/Teaching/CalcolatoriElettronici/Docs/i8086_instruction_set.pdf
-
 int main()
 {
     Memory memory;
@@ -121,7 +116,7 @@ int main()
     programmer.Program(cpu, memory, program);
 
     cpu.Execute(memory, INT16_MAX);
-
+    printf("ASd");
     Debugger debugger;
     debugger.Registers(cpu, memory);
     debugger.Eflags(cpu, memory);
