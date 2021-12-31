@@ -7,7 +7,7 @@ OBJ_DIR = obj
 
 build:
 	@echo Building...
-	@mkdir -p ${OBJ_DIR}
+	@mkdir ${OBJ_DIR}
 	${CC} ${CFLAGS}  ${SRC_DIR}\main.cpp -o ${OBJ_DIR}\main.o
 	${CC} ${CFLAGS}  ${SRC_DIR}\cpu\cpu.cpp -o ${OBJ_DIR}\cpu.o
 	${CC} ${CFLAGS}  ${SRC_DIR}\memory\memory.cpp -o ${OBJ_DIR}\memory.o
